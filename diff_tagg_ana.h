@@ -68,22 +68,7 @@ class diff_tagg_ana : public SubsysReco
 
   void Print(const std::string &what = "ALL") const override;
 
-  int process_g4hits_ZDC(PHCompositeNode *);
-  int process_g4hits_RomanPots(PHCompositeNode *);
-  int process_g4hits_B0(PHCompositeNode *);
-
-  int process_g4hits_LowQ2Tagger(PHCompositeNode *);
-
-
-  int process_g4hits(PHCompositeNode *, const std::string&);
-  int process_g4clusters(PHCompositeNode *, const std::string&);
-
   int process_PHG4Truth(PHCompositeNode* topNode);
-  int process_PHG4Truth_Primary_Particles(PHCompositeNode* topNode);
-
-
-
-
 
 // private:
 
@@ -102,43 +87,10 @@ class diff_tagg_ana : public SubsysReco
 
   int static_event_counter;
 
-  //---------------------
-  // From ejana
-
-  double true_q2;
-  double true_x;
-  double true_s_e;
-  double true_xpi;
-  double true_ypi;
-  double true_tpi;
-
-  double have_true_dis_info = false;
-  
-  bool  HIT_IN_ZDC; 
-  bool  HIT_IN_HEC;	
-
-//  double e_beam_energy;
-//  double ion_beam_energy;
-//  double crossing_angle;
-
-  int b0DetNr;
-
-  TLorentzVector r_lelectron;
-//  TLorentzVector r_lproton;
-//  TLorentzVector r_lproton;
-
-  TLorentzVector r_lscatelec;
-  TLorentzVector r_l_scat_nucleon;
-
-  TLorentzVector lproton;
-
-  Int_t ZDC_hit;
-
   //Truth
   TH1D* h_pt;
 
   // Beam parameter
-
   Float_t e_beam_energy;
   Float_t e_beam_pmag;
 
@@ -181,18 +133,18 @@ class diff_tagg_ana : public SubsysReco
   bool is_positron;
 
   PHParameters Enclosure_params{"PHGEnclosure"};
-  PHParameters ZDC_params{"PHG4RP"};
-  PHParameters RP_1_params{"PHG4RP"};
-  PHParameters RP2_params{"PHG4RP2"};
-  PHParameters B0_params{"PHG4B0"};
-  PHParameters BeamLineMagnet_params{"PHG4BeamLinMagnet"};
+  // PHParameters ZDC_params{"PHG4RP"};
+  // PHParameters RP_1_params{"PHG4RP"};
+  // PHParameters RP2_params{"PHG4RP2"};
+  // PHParameters B0_params{"PHG4B0"};
+  // PHParameters BeamLineMagnet_params{"PHG4BeamLinMagnet"};
 
-  PdbParameterMapContainer *encloseure_nodeparams; 
-  PdbParameterMapContainer *zdc_nodeparams; 
-  PdbParameterMapContainer *rp_nodeparams;
-  PdbParameterMapContainer *rp2_nodeparams;
-  PdbParameterMapContainer *b0_nodeparams;
-  PdbParameterMapContainer *beamlinemagnet_nodeparams; 
+  // PdbParameterMapContainer *encloseure_nodeparams; 
+  // PdbParameterMapContainer *zdc_nodeparams; 
+  // PdbParameterMapContainer *rp_nodeparams;
+  // PdbParameterMapContainer *rp2_nodeparams;
+  // PdbParameterMapContainer *b0_nodeparams;
+  // PdbParameterMapContainer *beamlinemagnet_nodeparams; 
 
   TString IP_design;
 
