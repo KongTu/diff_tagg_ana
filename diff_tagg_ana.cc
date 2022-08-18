@@ -179,13 +179,6 @@ int diff_tagg_ana::InitRun(PHCompositeNode *topNode)
 int diff_tagg_ana::process_event(PHCompositeNode *topNode)
 {
 
-  std::cout << "diff_tagg_ana::process_event(PHCompositeNode *topNode) Processing Event" << std::endl;
-
-  SvtxEvalStack *_svtxEvalStack;
-
-  _svtxEvalStack = new SvtxEvalStack(topNode);
-  _svtxEvalStack->set_verbosity(Verbosity());
-
  /// Getting the Truth information
   getHEPMCTruth(topNode);
 
