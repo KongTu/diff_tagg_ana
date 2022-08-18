@@ -70,6 +70,7 @@ class diff_tagg_ana : public SubsysReco
   void Print(const std::string &what = "ALL") const override;
   
   void getHEPMCTruth(PHCompositeNode *topNode);
+  void getTracks(PHCompositeNode *topNode);
 
 // private:
 
@@ -81,6 +82,7 @@ class diff_tagg_ana : public SubsysReco
 
   TFile *outfile;
   TTree *m_hepmctree;
+  TTree *m_tracktree;
   TNtuple *g4hitntuple;
   TNtuple *clusterntuple;
 
@@ -88,8 +90,6 @@ class diff_tagg_ana : public SubsysReco
   gsl_rng* m_RandomGenerator;
 
   int static_event_counter;
-
-  //Truth
 
   // Beam parameter
   Float_t e_beam_energy;
@@ -114,7 +114,7 @@ class diff_tagg_ana : public SubsysReco
   TLorentzVector virtphoton4VectTruth;
   TLorentzVector e4VectTruth;
 
-  //-------------------------------
+  //hepmc truth variables
   int m_mpi;
   int m_process_id;
   int m_partid1;
@@ -132,21 +132,31 @@ class diff_tagg_ana : public SubsysReco
   int m_numparticlesinevent;
   int m_truthpid;
 
-  // PHParameters Enclosure_params{"PHGEnclosure"};
-  // PHParameters ZDC_params{"PHG4RP"};
-  // PHParameters RP_1_params{"PHG4RP"};
-  // PHParameters RP2_params{"PHG4RP2"};
-  // PHParameters B0_params{"PHG4B0"};
-  // PHParameters BeamLineMagnet_params{"PHG4BeamLinMagnet"};
-
-  // PdbParameterMapContainer *encloseure_nodeparams; 
-  // PdbParameterMapContainer *zdc_nodeparams; 
-  // PdbParameterMapContainer *rp_nodeparams;
-  // PdbParameterMapContainer *rp2_nodeparams;
-  // PdbParameterMapContainer *b0_nodeparams;
-  // PdbParameterMapContainer *beamlinemagnet_nodeparams; 
-
-  // TString IP_design;
+  /// Track variables
+  double m_tr_px;
+  double m_tr_py;
+  double m_tr_pz;
+  double m_tr_p;
+  double m_tr_pt;
+  double m_tr_phi;
+  double m_tr_eta;
+  int m_charge;
+  double m_chisq;
+  int m_ndf;
+  double m_dca;
+  double m_tr_x;
+  double m_tr_y;
+  double m_tr_z;
+  int m_truth_is_primary;
+  double m_truthtrackpx;
+  double m_truthtrackpy;
+  double m_truthtrackpz;
+  double m_truthtrackp;
+  double m_truthtracke;
+  double m_truthtrackpt;
+  double m_truthtrackphi;
+  double m_truthtracketa;
+  int m_truthtrackpid;
 
 };
 
