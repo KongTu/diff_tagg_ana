@@ -110,7 +110,6 @@ class diff_tagg_ana : public SubsysReco
   Float_t e_E_truth;
   Float_t e_Polar_truth;
 
-
   Float_t mProt;
   Float_t mElec;
 
@@ -122,6 +121,10 @@ class diff_tagg_ana : public SubsysReco
   //-------------------------------
   int m_mpi;
   int m_process_id;
+  int m_partid1;
+  int m_partid2;
+  double m_x1;
+  double m_x2;
   double m_truthenergy;
   double m_trutheta;
   double m_truthphi;

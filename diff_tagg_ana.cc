@@ -211,6 +211,10 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 
   m_mpi = -99;
   m_process_id = -99;
+  m_partid1 = -99;
+  m_partid2 = -99;
+  m_x1 = -99;
+  m_x2 = -99;
   m_truthenergy = -99;
   m_trutheta = -99;
   m_truthphi = -99;
