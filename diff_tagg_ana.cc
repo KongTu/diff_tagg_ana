@@ -362,7 +362,7 @@ int diff_tagg_ana::End(PHCompositeNode *topNode)
   
   outfile->cd();
   m_truthtree->Write();
-  m_hepmctree->Write();
+  // m_hepmctree->Write();
   outfile->Write();
   outfile->Close();
   delete outfile;
@@ -438,8 +438,6 @@ int diff_tagg_ana::process_PHG4Truth(PHCompositeNode* topNode) {
 
     /// Fill the g4 truth tree
    m_truthtree->Fill();
-
-   h_pt->Fill(sqrt(m_truthpx*m_truthpx+m_truthpy*m_truthpy));
   }
 
 
