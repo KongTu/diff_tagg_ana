@@ -330,7 +330,7 @@ int diff_tagg_ana::process_event(PHCompositeNode *topNode)
 
  /// Getting the Truth information
   process_PHG4Truth(topNode);
-  getHEPMCTruth(topNode);
+  // getHEPMCTruth(topNode);
 
   event_itt++; 
  
