@@ -132,25 +132,21 @@ class diff_tagg_ana : public SubsysReco
   int m_numparticlesinevent;
   int m_truthpid;
 
-  bool is_Jpsi;
-  bool is_electron;
-  bool is_positron;
+  // PHParameters Enclosure_params{"PHGEnclosure"};
+  // PHParameters ZDC_params{"PHG4RP"};
+  // PHParameters RP_1_params{"PHG4RP"};
+  // PHParameters RP2_params{"PHG4RP2"};
+  // PHParameters B0_params{"PHG4B0"};
+  // PHParameters BeamLineMagnet_params{"PHG4BeamLinMagnet"};
 
-  PHParameters Enclosure_params{"PHGEnclosure"};
-  PHParameters ZDC_params{"PHG4RP"};
-  PHParameters RP_1_params{"PHG4RP"};
-  PHParameters RP2_params{"PHG4RP2"};
-  PHParameters B0_params{"PHG4B0"};
-  PHParameters BeamLineMagnet_params{"PHG4BeamLinMagnet"};
+  // PdbParameterMapContainer *encloseure_nodeparams; 
+  // PdbParameterMapContainer *zdc_nodeparams; 
+  // PdbParameterMapContainer *rp_nodeparams;
+  // PdbParameterMapContainer *rp2_nodeparams;
+  // PdbParameterMapContainer *b0_nodeparams;
+  // PdbParameterMapContainer *beamlinemagnet_nodeparams; 
 
-  PdbParameterMapContainer *encloseure_nodeparams; 
-  PdbParameterMapContainer *zdc_nodeparams; 
-  PdbParameterMapContainer *rp_nodeparams;
-  PdbParameterMapContainer *rp2_nodeparams;
-  PdbParameterMapContainer *b0_nodeparams;
-  PdbParameterMapContainer *beamlinemagnet_nodeparams; 
-
-  TString IP_design;
+  // TString IP_design;
 
 };
 
