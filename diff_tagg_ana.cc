@@ -166,29 +166,11 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 int diff_tagg_ana::InitRun(PHCompositeNode *topNode)
 {
 
-  if( static_event_counter == 0) {
+  // if( static_event_counter == 0) {
   
-  	encloseure_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_hFarFwdBeamLineEnclosure_0");
-    encloseure_nodeparams->Print();
-
-  	if (encloseure_nodeparams)
-  	{
-  	   Enclosure_params.FillFrom(encloseure_nodeparams, 0);
-  	} else {
-  	   cerr << "There is a issue finding the detector paramter node!" << endl;
-  	}
-
-
-  	// beamlinemagnet_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_BEAMLINEMAGNET");
-   //  zdc_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_ZDCsurrogate");  	
-   //  rp_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth");
-   //  rp_nodeparams->print();
-   //  rp2_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth2");  	
-   //  b0_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_b0Truth_0");
-
-  	static_event_counter++;
-  }
-  cout << " END initialization" << endl;
+  // 	static_event_counter++;
+  // }
+  // cout << " END initialization" << endl;
 
   return Fun4AllReturnCodes::EVENT_OK;
 }
