@@ -146,9 +146,6 @@ diff_tagg_ana::diff_tagg_ana(const std::string &name, const std::string& filenam
 
 }
 
-
-
-
 //____________________________________________________________________________..
 diff_tagg_ana::~diff_tagg_ana()
 {
@@ -193,14 +190,24 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   m_truthtree->Branch("m_trutheta", &m_trutheta, "m_trutheta/D");
   m_truthtree->Branch("m_truthpid", &m_truthpid, "m_truthpid/I");
 
- 
-  gDirectory->cd("/");
+  m_hepmctree = new TTree("hepmctree", "A tree with hepmc truth particles");
+  m_hepmctree->Branch("m_partid1", &m_partid1, "m_partid1/I");
+  m_hepmctree->Branch("m_partid2", &m_partid2, "m_partid2/I");
+  m_hepmctree->Branch("m_x1", &m_x1, "m_x1/D");
+  m_hepmctree->Branch("m_x2", &m_x2, "m_x2/D");
+  m_hepmctree->Branch("m_mpi", &m_mpi, "m_mpi/I");
+  m_hepmctree->Branch("m_process_id", &m_process_id, "m_process_id/I");
+  m_hepmctree->Branch("m_truthenergy", &m_truthenergy, "m_truthenergy/D");
+  m_hepmctree->Branch("m_trutheta", &m_trutheta, "m_trutheta/D");
+  m_hepmctree->Branch("m_truthphi", &m_truthphi, "m_truthphi/D");
+  m_hepmctree->Branch("m_truthpx", &m_truthpx, "m_truthpx/D");
+  m_hepmctree->Branch("m_truthpy", &m_truthpy, "m_truthpy/D");
+  m_hepmctree->Branch("m_truthpz", &m_truthpz, "m_truthpz/D");
+  m_hepmctree->Branch("m_truthpt", &m_truthpt, "m_truthpt/D");
+  m_hepmctree->Branch("m_numparticlesinevent", &m_numparticlesinevent, "m_numparticlesinevent/I");
+  m_hepmctree->Branch("m_truthpid", &m_truthpid, "m_truthpid/I");
 
-  //**************
-  // TEST
-	
-  gDirectory->mkdir("TEST") ;
-  gDirectory->cd("TEST") ;
+  gDirectory->cd("/");
 
   m_mpi = -99;
   m_process_id = -99;
@@ -322,6 +329,7 @@ int diff_tagg_ana::process_event(PHCompositeNode *topNode)
 
  /// Getting the Truth information
   process_PHG4Truth(topNode);
+  getHEPMCTruth(topNode);
 
   event_itt++; 
  
@@ -354,7 +362,7 @@ int diff_tagg_ana::End(PHCompositeNode *topNode)
   
   outfile->cd();
   m_truthtree->Write();
-  g4hitntuple->Write();
+  m_hepmctree->Write();
   outfile->Write();
   outfile->Close();
   delete outfile;
@@ -425,8 +433,8 @@ int diff_tagg_ana::process_PHG4Truth(PHCompositeNode* topNode) {
 	   is_positron = "true";
 	}
 
-   cout << "truth: " << m_truthpid << "  " << m_truthpx << "  " << m_truthpy 
-        << "  " << m_truthpz << endl;
+   // cout << "truth: " << m_truthpid << "  " << m_truthpx << "  " << m_truthpy 
+   //      << "  " << m_truthpz << endl;
 
     /// Fill the g4 truth tree
    m_truthtree->Fill();
@@ -439,7 +447,89 @@ int diff_tagg_ana::process_PHG4Truth(PHCompositeNode* topNode) {
 
 }
 
+void diff_tagg_ana::getHEPMCTruth(PHCompositeNode *topNode)
+{
+  /// Get the node from the node tree
+  PHHepMCGenEventMap *hepmceventmap = findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
 
+  /// If the node was not properly put on the tree, return
+  if (!hepmceventmap)
+  {
+    cout << PHWHERE
+         << "HEPMC event map node is missing, can't collected HEPMC truth particles"
+         << endl;
+    return;
+  }
+
+  /// Could have some print statements for debugging with verbosity
+  if (Verbosity() > 1)
+  {
+    cout << "Getting HEPMC truth particles " << endl;
+  }
+
+  /// You can iterate over the number of events in a hepmc event
+  /// for pile up events where you have multiple hard scatterings per bunch crossing
+  for (PHHepMCGenEventMap::ConstIter eventIter = hepmceventmap->begin();
+       eventIter != hepmceventmap->end();
+       ++eventIter)
+  {
+    /// Get the event
+    PHHepMCGenEvent *hepmcevent = eventIter->second;
+
+    if (hepmcevent)
+    {
+      /// Get the event characteristics, inherited from HepMC classes
+      HepMC::GenEvent *truthevent = hepmcevent->getEvent();
+      if (!truthevent)
+      {
+        cout << PHWHERE
+             << "no evt pointer under phhepmvgeneventmap found "
+             << endl;
+        return;
+      }
+
+      /// Get the parton info
+      HepMC::PdfInfo *pdfinfo = truthevent->pdf_info();
+
+      /// Get the parton info as determined from HEPMC
+      m_partid1 = pdfinfo->id1();
+      m_partid2 = pdfinfo->id2();
+      m_x1 = pdfinfo->x1();
+      m_x2 = pdfinfo->x2();
+
+      /// Are there multiple partonic intercations in a p+p event
+      m_mpi = truthevent->mpi();
+
+      /// Get the PYTHIA signal process id identifying the 2-to-2 hard process
+      m_process_id = truthevent->signal_process_id();
+
+      if (Verbosity() > 2)
+      {
+        cout << " Iterating over an event" << endl;
+      }
+      /// Loop over all the truth particles and get their information
+      for (HepMC::GenEvent::particle_const_iterator iter = truthevent->particles_begin();
+           iter != truthevent->particles_end();
+           ++iter)
+      {
+        /// Get each pythia particle characteristics
+        m_truthenergy = (*iter)->momentum().e();
+        m_truthpid = (*iter)->pdg_id();
+
+        m_trutheta = (*iter)->momentum().pseudoRapidity();
+        m_truthphi = (*iter)->momentum().phi();
+        m_truthpx = (*iter)->momentum().px();
+        m_truthpy = (*iter)->momentum().py();
+        m_truthpz = (*iter)->momentum().pz();
+        m_truthpt = sqrt(m_truthpx * m_truthpx + m_truthpy * m_truthpy);
+
+        /// Fill the truth tree
+        m_hepmctree->Fill();
+        m_numparticlesinevent++;
+      }
+    }
+  }
+}
 
 
 

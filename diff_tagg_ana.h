@@ -70,6 +70,8 @@ class diff_tagg_ana : public SubsysReco
   void Print(const std::string &what = "ALL") const override;
 
   int process_PHG4Truth(PHCompositeNode* topNode);
+  
+  void getHEPMCTruth(PHCompositeNode *topNode);
 
 // private:
 
@@ -81,6 +83,7 @@ class diff_tagg_ana : public SubsysReco
 
   TFile *outfile;
   TTree *m_truthtree;
+  TTree *m_hepmctree;
   TNtuple *g4hitntuple;
   TNtuple *clusterntuple;
 
