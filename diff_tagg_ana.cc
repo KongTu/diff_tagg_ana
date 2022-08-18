@@ -351,8 +351,9 @@ int diff_tagg_ana::End(PHCompositeNode *topNode)
 {
   std::cout << "diff_tagg_ana::End(PHCompositeNode *topNode) This is the End..." << std::endl;
 
-
+  
   outfile->cd();
+  m_truthtree->Write();
   g4hitntuple->Write();
   outfile->Write();
   outfile->Close();
