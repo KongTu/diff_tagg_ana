@@ -79,6 +79,7 @@ class diff_tagg_ana : public SubsysReco
   Fun4AllHistoManager *hm;
 
   TFile *outfile;
+  TTree *m_truthtree;
   TNtuple *g4hitntuple;
   TNtuple *clusterntuple;
 

@@ -181,6 +181,18 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   gDirectory->mkdir("Truth");
   gDirectory->cd("Truth");
   h_pt = new TH1D("h_pt",";pt(Gev/C)",100,0,4);
+
+  m_truthtree = new TTree("truthg4tree", "A tree with truth g4 particles");
+  m_truthtree->Branch("m_truthenergy", &m_truthenergy, "m_truthenergy/D");
+  m_truthtree->Branch("m_truthp", &m_truthp, "m_truthp/D");
+  m_truthtree->Branch("m_truthpx", &m_truthpx, "m_truthpx/D");
+  m_truthtree->Branch("m_truthpy", &m_truthpy, "m_truthpy/D");
+  m_truthtree->Branch("m_truthpz", &m_truthpz, "m_truthpz/D");
+  m_truthtree->Branch("m_truthpt", &m_truthpt, "m_truthpt/D");
+  m_truthtree->Branch("m_truthphi", &m_truthphi, "m_truthphi/D");
+  m_truthtree->Branch("m_trutheta", &m_trutheta, "m_trutheta/D");
+  m_truthtree->Branch("m_truthpid", &m_truthpid, "m_truthpid/I");
+
  
   gDirectory->cd("/");
 
@@ -416,7 +428,7 @@ int diff_tagg_ana::process_PHG4Truth(PHCompositeNode* topNode) {
         << "  " << m_truthpz << endl;
 
     /// Fill the g4 truth tree
-   // m_truthtree->Fill();
+   m_truthtree->Fill();
 
    h_pt->Fill(sqrt(m_truthpx*m_truthpx+m_truthpy*m_truthpy));
   }
