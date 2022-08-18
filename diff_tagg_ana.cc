@@ -121,8 +121,6 @@
 #include <pdbcalbase/PdbParameterMapContainer.h>
 
 #include <g4eval/SvtxEvalStack.h>
-//#include <coresoftware/blob/master/simulation/g4simulation/g4eval/SvtxEvalStack.h>
-//#include "/cvmfs/eic.opensciencegrid.org/ecce/gcc-8.3/release/release_new/new.1/include/g4eval/SvtxEvalStack.h"
 
 using namespace std;
 
@@ -177,7 +175,6 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 
   gDirectory->mkdir("Truth");
   gDirectory->cd("Truth");
-  h_pt = new TH1D("h_pt",";pt(Gev/C)",100,0,4);
 
   m_truthtree = new TTree("truthg4tree", "A tree with truth g4 particles");
   m_truthtree->Branch("m_truthenergy", &m_truthenergy, "m_truthenergy/D");
