@@ -71,7 +71,7 @@ class diff_tagg_ana : public SubsysReco
 
   int process_PHG4Truth(PHCompositeNode* topNode);
   
-  void getHEPMCTruth(PHCompositeNode *topNode);
+  // void getHEPMCTruth(PHCompositeNode *topNode);
 
 // private:
 
