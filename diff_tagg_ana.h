@@ -16,6 +16,7 @@
 #include "TLorentzVector.h"
 #include "TH1.h"
 #include "TH2.h"
+#include "TTree.h"
 
 #include <pdbcalbase/PdbParameterMap.h>
 #include <phparameter/PHParameters.h>
