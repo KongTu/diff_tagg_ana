@@ -86,6 +86,8 @@ class diff_tagg_ana : public SubsysReco
   TNtuple *g4hitntuple;
   TNtuple *clusterntuple;
 
+  SvtxEvalStack *m_svtxEvalStack = nullptr;
+
   unsigned long long int event_itt;
   gsl_rng* m_RandomGenerator;
 
