@@ -180,7 +180,7 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 
   gDirectory->mkdir("Truth");
   gDirectory->cd("Truth");
-  TH1D* h_pt = new TH1D("h_pt",";pt(Gev/C)",100,0,4);
+  h_pt = new TH1D("h_pt",";pt(Gev/C)",100,0,4);
  
   gDirectory->cd("/");
 
@@ -416,7 +416,7 @@ int diff_tagg_ana::process_PHG4Truth(PHCompositeNode* topNode) {
         << "  " << m_truthpz << endl;
 
     /// Fill the g4 truth tree
-   m_truthtree->Fill();
+   // m_truthtree->Fill();
 
    h_pt->Fill(sqrt(m_truthpx*m_truthpx+m_truthpy*m_truthpy));
   }

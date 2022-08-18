@@ -102,46 +102,6 @@ class diff_tagg_ana : public SubsysReco
 
   int static_event_counter;
 
-  //*********************************
-  // ZDC Energy and Position smearing
-
-  float ZDC_Energy_Smear_EMCAL(float E);
-  float ZDC_Energy_Smear_HCAL(float E);
-  float ZDC_Energy_Smear_PbWO4(float E);
-  float ZDC_Position_Smear(float E);
-
-  //*********************************
-  // B0 Tracker Energy and Position smearing
-
-  float B0Tracker_Energy_Smear(float E);
-  float B0Tracker_Position_Smear(float E);
-
-  //*********************************
-  // B0 Cal Energy and Position smearing
-
-  float B0Cal_Energy_Smear(float E);
-  float B0Cal_Position_Smear(float E);
-
-  //*********************************
-  // RP Energy and Position smearing
-
-  float RP_Energy_Smear(float E);
-  float RP_Position_Smear(float E);
-
-  //*********************************
-  // Off Momentum Energy and Position smearing
-
-  float Off_Mom_Energy_Smear(float E);
-  float Off_Mom_Position_Smear(float E);
-
-  //*********************************
-  // Coordinate transformation from global to local
-
-  float Get_Local_X(float global_x, float global_y, float global_z, float det_tilt, float det_rot);
-  float Get_Local_Y(float global_x, float global_y, float global_z, float det_tilt, float det_rot);
-  float Get_Local_X(float global_x, float global_y, float global_z, PdbParameterMapContainer *det_nodeparams);
-//  float Get_Local_X(float global_x, float global_y, float global_z) {return 1;};
-  float Get_Local_X(float global_x, float global_y, float global_z, PHParameters Det_params);
   //---------------------
   // From ejana
 
@@ -174,52 +134,8 @@ class diff_tagg_ana : public SubsysReco
 
   Int_t ZDC_hit;
 
-  TH2F* h2_ZDC_XY_g; 
-  TH2F* h2_ZDC_XY_g_double; 
-
-  TH2F* h2_ZDC_XY_l; 
-  TH2F* h2_ZDC_XY_l_double; 
-
-  TH1F* h1_E_dep_smeared;
-  TH1F* h1_E_dep;
-
-  // Roman pots
-  TH2F* h2_RP_XY_g; 
-  TH2F* h2_RP_XY_l; 
-  TH2F* h2_RP_XY_signal; 
-
-  // B0
-  TH2F* h2_B0_XY_g; 
-  TH2F* h2_B0_XY_l; 
-
-  // Low Q2 Tagger
-  TH2F* h2_lowQ2_XY; 
-  TH1F* h_Q2_truth; 
-  TH1F* h_Q2_truth_JPsi; 
-  TH1F* h_eta; 
-  TH1F* h_Q2_truth_LowQ2tag; 
-  TH2F* h2_Q2_pos; 
-  TH2F* h2_Q2_mom; 
-  TH2F* h2_pos_mom; 
-  TH2F* h2_Q2_theta; 
-
-  TH2F* h2_Q2_truth_E; 
-
-  TH1F* h_Q2; 
-  TH1F* h_log_Q2; 
-  TH1F* h_log_Q2_LowQ2tag;
-
-  TH1F* h_E;
-  TH1F* h_E_LowQ2tag;
-
-  TH1F* h_eta_LowQ2tag;
-
-  TH1F* h_polar;
-  TH1F* h_polar_LowQ2tag; 
-
-  TH2F* h2_E_Q2;
-  TH2F* h2_E_Q2_LowQ2tag;
-
+  //Truth
+  TH1D* h_pt;
 
   // Beam parameter
 
