@@ -71,7 +71,7 @@ class diff_tagg_ana : public SubsysReco
 
   int process_PHG4Truth(PHCompositeNode* topNode);
   
-  // void getHEPMCTruth(PHCompositeNode *topNode);
+  void getHEPMCTruth(PHCompositeNode *topNode);
 
 // private:
 
@@ -93,7 +93,6 @@ class diff_tagg_ana : public SubsysReco
   int static_event_counter;
 
   //Truth
-  TH1D* h_pt;
 
   // Beam parameter
   Float_t e_beam_energy;
