@@ -23,17 +23,13 @@
 
 #include <g4eval/SvtxEvalStack.h>
 #include <g4eval/SvtxTrackEval.h>
-// #include <SvtxTrackMap.h>
+#include <trrackbase_historic/SvtxTrackMap.h>
 // #include <SvtxTrack.h>
 
 class Fun4AllHistoManager;
 class PHCompositeNode;
 class TFile;
 class TNtuple;
-class SvtxTrackMap;
-class SvtxTrackEval;
-class SvtxEvalStack;
-
 
 class diff_tagg_ana : public SubsysReco
 {
