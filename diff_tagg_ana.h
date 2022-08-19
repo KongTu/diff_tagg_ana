@@ -23,8 +23,8 @@
 
 #include <g4eval/SvtxEvalStack.h>
 #include <g4eval/SvtxTrackEval.h>
-#include <SvtxTrackMap.h>
-#include <SvtxTrack.h>
+// #include <SvtxTrackMap.h>
+// #include <SvtxTrack.h>
 
 class Fun4AllHistoManager;
 class PHCompositeNode;
