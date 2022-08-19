@@ -227,6 +227,8 @@ int diff_tagg_ana::InitRun(PHCompositeNode *topNode)
 int diff_tagg_ana::process_event(PHCompositeNode *topNode)
 {
 
+  m_svtxEvalStack = new SvtxEvalStack(topNode);
+  m_svtxEvalStack->set_verbosity(Verbosity());
  /// Getting the Truth information
   getHEPMCTruth(topNode);
   getTracks(topNode);
