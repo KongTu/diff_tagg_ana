@@ -376,13 +376,13 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
   /// SVTX tracks node
   SvtxTrackMap *trackmap = findNode::getClass<SvtxTrackMap>(topNode, "SvtxTrackMap_v1");
 
-  if (!trackmap)
-  {
-    cout << PHWHERE
-         << "SvtxTrackMap node is missing, can't collect tracks"
-         << endl;
-    return;
-  }
+  // if (!trackmap)
+  // {
+  //   cout << PHWHERE
+  //        << "SvtxTrackMap node is missing, can't collect tracks"
+  //        << endl;
+  //   return;
+  // }
 
   /// EvalStack for truth track matching
   if(!m_svtxEvalStack)
