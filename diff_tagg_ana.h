@@ -25,7 +25,6 @@
 #include <g4eval/SvtxTrackEval.h>
 #include <trackbase_historic/SvtxTrackMap.h>
 #include <trackbase_historic/SvtxTrackMap_v1.h>
-#include <trackbase_historic/SvtxTrackMap_v2.h>
 // #include <SvtxTrack.h>
 
 class Fun4AllHistoManager;
