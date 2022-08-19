@@ -20,6 +20,7 @@
 
 #include <pdbcalbase/PdbParameterMap.h>
 #include <phparameter/PHParameters.h>
+#include <g4eval/SvtxEvalStack.h>
 
 class Fun4AllHistoManager;
 class PHCompositeNode;
