@@ -30,6 +30,9 @@ class Fun4AllHistoManager;
 class PHCompositeNode;
 class TFile;
 class TNtuple;
+class SvtxTrackMap;
+class SvtxTrackEval;
+class SvtxEvalStack;
 
 
 class diff_tagg_ana : public SubsysReco
