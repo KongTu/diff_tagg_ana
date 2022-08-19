@@ -20,7 +20,9 @@
 
 #include <pdbcalbase/PdbParameterMap.h>
 #include <phparameter/PHParameters.h>
+
 #include <g4eval/SvtxEvalStack.h>
+#include <g4eval/SvtxTrackEval.h>
 
 class Fun4AllHistoManager;
 class PHCompositeNode;
@@ -71,6 +73,7 @@ class diff_tagg_ana : public SubsysReco
   void Print(const std::string &what = "ALL") const override;
   
   void getHEPMCTruth(PHCompositeNode *topNode);
+  
   void getTracks(PHCompositeNode *topNode);
 
 // private:

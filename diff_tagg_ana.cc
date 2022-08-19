@@ -73,8 +73,6 @@ Descriptions:
 
 #include <pdbcalbase/PdbParameterMapContainer.h>
 
-#include <g4eval/SvtxEvalStack.h>
-
 using namespace std;
 
 diff_tagg_ana::diff_tagg_ana(const std::string &name, const std::string& filename):
