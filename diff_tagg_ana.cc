@@ -374,7 +374,7 @@ void diff_tagg_ana::getHEPMCTruth(PHCompositeNode *topNode)
 void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
 {
   /// SVTX tracks node
-  SvtxTrackMap *trackmap = findNode::getClass<SvtxTrackMap>(topNode, "SvtxTrackMap");
+  SvtxTrackMap *trackmap = findNode::getClass<SvtxTrackMap>(topNode, "SvtxTrackMap_v1");
 
   if (!trackmap)
   {
