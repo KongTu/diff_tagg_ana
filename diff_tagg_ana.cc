@@ -119,7 +119,7 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   m_truthtree->Branch("m_truthpt", &m_truthpt, "m_truthpt/D");
   m_truthtree->Branch("m_truthphi", &m_truthphi, "m_truthphi/D");
   m_truthtree->Branch("m_trutheta", &m_trutheta, "m_trutheta/D");
-  m_truthtree->Branch("m_truthpid", &m_truthpid, "m_truthpid/I")
+  m_truthtree->Branch("m_truthpid", &m_truthpid, "m_truthpid/I");
 
   m_tracktree = new TTree("tracktree", "A tree with svtx tracks");
   m_tracktree->Branch("m_tr_px", &m_tr_px, "m_tr_px/D");
