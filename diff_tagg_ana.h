@@ -164,6 +164,9 @@ class diff_tagg_ana : public SubsysReco
   double m_tr_x;
   double m_tr_y;
   double m_tr_z;
+  float m_tr_pion_loglikelihood;
+  float m_tr_kaon_loglikelihood;
+  float m_tr_proton_loglikelihood;
   int m_truth_is_primary;
   double m_truthtrackpx;
   double m_truthtrackpy;

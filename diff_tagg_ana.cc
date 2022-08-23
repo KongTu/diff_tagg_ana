@@ -142,6 +142,9 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   m_tracktree->Branch("m_tr_x", &m_tr_x, "m_tr_x/D");
   m_tracktree->Branch("m_tr_y", &m_tr_y, "m_tr_y/D");
   m_tracktree->Branch("m_tr_z", &m_tr_z, "m_tr_z/D");
+  m_tracktree->Branch("m_tr_pion_loglikelihood", &m_tr_pion_loglikelihood, "m_tr_pion_loglikelihood/F");
+  m_tracktree->Branch("m_tr_kaon_loglikelihood", &m_tr_kaon_loglikelihood, "m_tr_kaon_loglikelihood/F");
+  m_tracktree->Branch("m_tr_proton_loglikelihood", &m_tr_proton_loglikelihood, "m_tr_proton_loglikelihood/F");
   m_tracktree->Branch("m_truth_is_primary", &m_truth_is_primary, "m_truth_is_primary/I");
   m_tracktree->Branch("m_truthtrackpx", &m_truthtrackpx, "m_truthtrackpx/D");
   m_tracktree->Branch("m_truthtrackpy", &m_truthtrackpy, "m_truthtrackpy/D");
@@ -184,6 +187,9 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   m_tr_x = -99;
   m_tr_y = -99;
   m_tr_z = -99;
+  m_tr_pion_loglikelihood = -99;
+  m_tr_kaon_loglikelihood = -99;
+  m_tr_proton_loglikelihood = -99;
   m_truth_is_primary = -99;
   m_truthtrackpx = -99;
   m_truthtrackpy = -99;
@@ -194,6 +200,7 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   m_truthtrackphi = -99;
   m_truthtracketa = -99;
   m_truthtrackpid = -99;
+
 
   ///**********************************/
   // Parameter definition
