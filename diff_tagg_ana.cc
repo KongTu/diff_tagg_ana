@@ -366,42 +366,36 @@ void diff_tagg_ana::getHEPMCTruth(PHCompositeNode *topNode)
     }
   }
 }
+
 /**
  * This method gets the tracks as reconstructed from the tracker. It also
- * compares the reconstructed track to its truth track counterpart as determined
- * by the 
+ * compares the reconstructed track to its truth track.
  */
 void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
 {
-  /// SVTX tracks node
-  SvtxTrackMap *trackmap = findNode::getClass<SvtxTrackMap>(topNode, "SvtxTrackMap");
+  /// Tracks node
+  SvtxTrackMap *trackmap = findNode::getClass<SvtxTrackMap>(topNode, "TrackMap");
+  EICPIDParticleContainer *pidcontainer = findNode::getClass<EICPIDParticleContainer>(topNode, "EICPIDParticleMap");
+
+  if (Verbosity() > 1 and pidcontainer == nullptr)
+  {
+    cout << "EICPIDParticleContainer named EICPIDParticleMap does not exist. Skip saving PID info" << endl;
+  }
 
   if (!trackmap)
   {
     cout << PHWHERE
-         << "SvtxTrackMap node is missing, can't collect tracks"
+         << "TrackMap node is missing, can't collect tracks"
          << endl;
     return;
   }
-
-  /// EvalStack for truth track matching
-  if(!m_svtxEvalStack)
-    {
-      m_svtxEvalStack = new SvtxEvalStack(topNode);
-      m_svtxEvalStack->set_verbosity(Verbosity());
-    }
-  
-  m_svtxEvalStack->next_event(topNode);
-
-  /// Get the track evaluator
-  SvtxTrackEval *trackeval = m_svtxEvalStack->get_track_eval();
 
   /// Get the range for primary tracks
   PHG4TruthInfoContainer *truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode, "G4TruthInfo");
 
   if (Verbosity() > 1)
   {
-    cout << "Get the SVTX tracks" << endl;
+    cout << "Get the tracks" << endl;
   }
   for (SvtxTrackMap::Iter iter = trackmap->begin();
        iter != trackmap->end();
@@ -432,21 +426,50 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
     m_tr_y = track->get_y();
     m_tr_z = track->get_z();
 
+    /// Ensure that the reco track is a fast sim track
+    SvtxTrack_FastSim *temp = dynamic_cast<SvtxTrack_FastSim *>(iter->second);
+    if (!temp)
+    {
+      if (Verbosity() > 0)
+        std::cout << "Skipping non fast track sim object..." << std::endl;
+      continue;
+    }
+
     /// Get truth track info that matches this reconstructed track
-    PHG4Particle *truthtrack = trackeval->max_truth_particle_by_nclusters(track);
-    m_truth_is_primary = truthinfo->is_primary(truthtrack);
+    PHG4Particle *truthtrack = truthinfo->GetParticle(temp->get_truth_track_id());
+    if (truthtrack)
+    {
+      m_truth_is_primary = truthinfo->is_primary(truthtrack);
 
-    m_truthtrackpx = truthtrack->get_px();
-    m_truthtrackpy = truthtrack->get_py();
-    m_truthtrackpz = truthtrack->get_pz();
-    m_truthtrackp = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy + m_truthtrackpz * m_truthtrackpz);
+      m_truthtrackpx = truthtrack->get_px();
+      m_truthtrackpy = truthtrack->get_py();
+      m_truthtrackpz = truthtrack->get_pz();
+      m_truthtrackp = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy + m_truthtrackpz * m_truthtrackpz);
 
-    m_truthtracke = truthtrack->get_e();
+      m_truthtracke = truthtrack->get_e();
 
-    m_truthtrackpt = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy);
-    m_truthtrackphi = atan(m_truthtrackpy / m_truthtrackpx);
-    m_truthtracketa = atanh(m_truthtrackpz / m_truthtrackp);
-    m_truthtrackpid = truthtrack->get_pid();
+      m_truthtrackpt = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy);
+      m_truthtrackphi = atan2(m_truthtrackpy, m_truthtrackpx);
+      m_truthtracketa = atanh(m_truthtrackpz / m_truthtrackp);
+      m_truthtrackpid = truthtrack->get_pid();
+    }
+
+    // match to PIDparticles
+    if (pidcontainer)
+    {
+      // EICPIDParticle are index the same as the tracks
+      const EICPIDParticle *pid_particle =
+          pidcontainer->findEICPIDParticle(track->get_id());
+
+      if (pid_particle)
+      {
+        // top level log likelihood sums.
+        // More detailed per-detector information also available at  EICPIDParticle::get_LogLikelyhood(EICPIDDefs::PIDCandidate, EICPIDDefs::PIDDetector)
+        m_tr_pion_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::PionCandiate);
+        m_tr_kaon_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::KaonCandiate);
+        m_tr_proton_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::ProtonCandiate);
+      }
+    }
 
     m_tracktree->Fill();
   }
