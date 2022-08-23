@@ -397,6 +397,9 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
       m_truthtrackpid[imatch] = truthtrack->get_pid();
       imatch++;
     }
+    else{
+      cout << "something is not matched!" << endl;
+    }
     
 
     // match to PIDparticles
