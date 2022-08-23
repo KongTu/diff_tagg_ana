@@ -337,6 +337,7 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
   }
   int ireco=0;
   int imatch=0;
+  int ipid=0;
   for (SvtxTrackMap::Iter iter = trackmap->begin();
        iter != trackmap->end();
        ++iter)
@@ -363,6 +364,7 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
     m_tr_x[ireco] = track->get_x();
     m_tr_y[ireco] = track->get_y();
     m_tr_z[ireco] = track->get_z();
+    ireco++;
 
     /// Ensure that the reco track is a fast sim track
     SvtxTrack_FastSim *temp = dynamic_cast<SvtxTrack_FastSim *>(iter->second);
@@ -395,9 +397,8 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
       m_truthtrackpid[imatch] = truthtrack->get_pid();
       imatch++;
     }
-    m_nRECtracksMatch=imatch;
+    
 
-    int ipid=0;
     // match to PIDparticles
     if (pidcontainer)
     {
@@ -415,6 +416,8 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
         ipid++;
       }
     }
+    m_nRECtracks=ireco;
+    m_nRECtracksMatch=imatch;
     m_nRECtracksPID=ipid;
 
     m_tracktree->Fill();
