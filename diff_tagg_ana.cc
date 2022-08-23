@@ -416,11 +416,12 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
         ipid++;
       }
     }
-    m_nRECtracks=ireco;
-    m_nRECtracksMatch=imatch;
-    m_nRECtracksPID=ipid;
-
-    m_tracktree->Fill();
+   
   }
+  m_nRECtracks=ireco;
+  m_nRECtracksMatch=imatch;
+  m_nRECtracksPID=ipid;
+
+  m_tracktree->Fill();
 }
 
