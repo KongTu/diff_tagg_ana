@@ -63,6 +63,10 @@ Descriptions:
 #include <g4main/PHG4Particle.h>
 #include <g4main/PHG4TruthInfoContainer.h>
 
+//PID includes
+#include <eicpidbase/EICPIDParticle.h>
+#include <eicpidbase/EICPIDParticleContainer.h>
+
 #include <g4main/PHG4Reco.h>
 
 #include <fun4all/Fun4AllServer.h>
