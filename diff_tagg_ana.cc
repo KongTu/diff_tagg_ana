@@ -289,7 +289,7 @@ void diff_tagg_ana::getEvent(PHCompositeNode *topNode)
         e4VectTruth.SetPxPyPzE(truth->get_px(), truth->get_py(), truth->get_pz(), truth->get_e());
         if(e4VectTruth.Eta()<mineta && e4VectTruth.E()>maxenergy){
           virtphoton4VectTruth = eBeam4Vect - e4VectTruth;
-          Q2_truth = -1*(virtphoton4VectTruth.Mag2());
+          double Q2_truth = -1*(virtphoton4VectTruth.Mag2());
 
           m_Q2_truth = Q2_truth;
           double pq=pBeam4Vect.Dot(virtphoton4VectTruth);
