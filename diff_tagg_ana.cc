@@ -110,6 +110,14 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 
   event_itt = 0;
 
+  m_eventtree = new TTree("eventtree", "A tree with event level quantity");
+  m_eventtree->Branch("m_Q2_truth", &m_Q2_truth, "m_Q2_truth/F");
+  m_eventtree->Branch("m_x_truth", &m_x_truth, "m_x_truth/F");
+  m_eventtree->Branch("m_y_truth", &m_y_truth, "m_y_truth/F");
+  m_eventtree->Branch("m_e_eta_truth", &m_e_eta_truth, "m_e_eta_truth/F");
+  m_eventtree->Branch("m_e_phi_truth", &m_e_phi_truth, "m_e_phi_truth/F");
+  m_eventtree->Branch("m_e_pt_truth", &m_e_pt_truth, "m_e_pt_truth/F");
+  
   m_truthtree = new TTree("truthg4tree", "A tree with truth g4 particles");
   m_truthtree->Branch("m_nMCtracks", &m_nMCtracks, "m_nMCtracks/I");
   m_truthtree->Branch("m_truthenergy", m_truthenergy, "m_truthenergy[m_nMCtracks]/D");
@@ -165,7 +173,7 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   e_beam_pmag = sqrt(pow(e_beam_energy,2)-pow(mElec,2));
   ion_beam_energy = 275;
   ion_beam_pmag = sqrt((pow(ion_beam_energy,2)-pow(mProt,2)));
-  crossing_angle = 0.025; 
+  crossing_angle = 0.0; //0.025
 
   //Double_t Pi = TMath::ACos(-1);
   eBeam4Vect.SetPxPyPzE(0,0,-1*e_beam_pmag,e_beam_energy);
@@ -190,6 +198,8 @@ int diff_tagg_ana::process_event(PHCompositeNode *topNode)
 
   m_svtxEvalStack = new SvtxEvalStack(topNode);
   m_svtxEvalStack->set_verbosity(Verbosity());
+  // Getting event information
+  getEvent(topNode);
   // Getting the MC information
   getPHG4Truth(topNode);
   // Getting the RECO information
@@ -224,6 +234,7 @@ int diff_tagg_ana::End(PHCompositeNode *topNode)
   std::cout << "diff_tagg_ana::End(PHCompositeNode *topNode) This is the End..." << std::endl;
 
   outfile->cd();
+  m_eventtree->Write();
   m_truthtree->Write();
   m_tracktree->Write();
   outfile->Write();
@@ -245,6 +256,58 @@ void diff_tagg_ana::Print(const std::string &what) const
 {
   
   std::cout << "diff_tagg_ana::Print(const std::string &what) const Printing info for " << what << std::endl;
+}
+
+void diff_tagg_ana::getEvent(PHCompositeNode *topNode)
+{
+  /// G4 truth particle node
+  PHG4TruthInfoContainer *truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode, "G4TruthInfo");
+
+  if (!truthinfo)
+  {
+    cout << PHWHERE
+         << "PHG4TruthInfoContainer node is missing, can't collect G4 truth particles"
+         << endl;
+    return;
+  }
+  /// Get the primary particle range
+  PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange();
+  int itruth=0;
+  double mineta=10.;
+  double maxenergy=0.;
+  /// Loop over the G4 truth (stable) particles
+  for (PHG4TruthInfoContainer::ConstIterator iter = range.first;
+       iter != range.second;
+       ++iter)
+  {
+    /// Get this truth particle
+    const PHG4Particle *truth = iter->second;
+
+    if ( truth->get_pid() == 11 ){ 
+    // PDG 11 -> Scattered electron
+      // we pick the lowest eta and maximum energy;
+        e4VectTruth.SetPxPyPzE(truth->get_px(), truth->get_py(), truth->get_pz(), truth->get_e());
+        if(e4VectTruth.Eta()<mineta && e4VectTruth.E()>maxenergy){
+          virtphoton4VectTruth = eBeam4Vect - e4VectTruth;
+          Q2_truth = -1*(virtphoton4VectTruth.Mag2());
+
+          m_Q2_truth = Q2_truth;
+          double pq=pBeam4Vect.Dot(virtphoton4VectTruth);
+          m_y_truth = pq / pBeam4Vect.Dot(eBeam4Vect);
+          m_x_truth = Q2_truth / (2.*pq);
+
+          m_e_pt_truth = e4VectTruth.Pt();
+          m_e_eta_truth = e4VectTruth.Eta();
+          m_e_phi_truth = e4VectTruth.Phi();
+          
+          //redefine
+          mineta = e4VectTruth.Eta();
+          maxenergy = e4VectTruth.E()>maxenergy;
+        }
+    }
+  }
+  //fill event tree;
+  m_eventtree->Fill();
 }
 
 /**

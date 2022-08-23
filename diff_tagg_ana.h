@@ -37,9 +37,7 @@ class Fun4AllHistoManager;
 class PHCompositeNode;
 class TFile;
 class TNtuple;
-class SvtxTrackMap;
-class SvtxTrackEval;
-class SvtxEvalStack;
+class TTree;
 
 class diff_tagg_ana : public SubsysReco
 {
@@ -83,12 +81,13 @@ class diff_tagg_ana : public SubsysReco
 
   void Print(const std::string &what = "ALL") const override;
   
+  void getEvent(PHCompositeNode *topNode);
+
   void getPHG4Truth(PHCompositeNode *topNode);
   
   void getTracks(PHCompositeNode *topNode);
 
 // private:
-
  protected:
 
   std::string detector;
@@ -96,6 +95,7 @@ class diff_tagg_ana : public SubsysReco
   Fun4AllHistoManager *hm;
 
   TFile *outfile;
+  TTree* m_eventtree;
   TTree *m_truthtree;
   TTree *m_tracktree;
   TNtuple *g4hitntuple;
@@ -111,17 +111,9 @@ class diff_tagg_ana : public SubsysReco
   // Beam parameter
   Float_t e_beam_energy;
   Float_t e_beam_pmag;
-
   Float_t ion_beam_energy;
   Float_t ion_beam_pmag;
-
   Float_t crossing_angle;
-
-  Float_t Q2_truth;
-  Float_t e_eta_truth;
-  Float_t e_Phi_truth;
-  Float_t e_E_truth;
-  Float_t e_Polar_truth;
 
   Float_t mProt;
   Float_t mElec;
@@ -130,6 +122,15 @@ class diff_tagg_ana : public SubsysReco
   TLorentzVector pBeam4Vect;
   TLorentzVector virtphoton4VectTruth;
   TLorentzVector e4VectTruth;
+
+
+  //event level
+  Float_t m_Q2_truth;
+  Float_t m_x_truth;
+  Float_t m_y_truth;
+  Float_t m_e_eta_truth;
+  Float_t m_e_phi_truth;
+  Float_t m_e_pt_truth;
 
   //hepmc truth variables
   int m_nMCtracks;
