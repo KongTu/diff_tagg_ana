@@ -272,7 +272,6 @@ void diff_tagg_ana::getEvent(PHCompositeNode *topNode)
   }
   /// Get the primary particle range
   PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange();
-  int itruth=0;
   double mineta=10.;
   double maxenergy=0.;
   /// Loop over the G4 truth (stable) particles
