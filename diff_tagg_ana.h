@@ -83,7 +83,7 @@ class diff_tagg_ana : public SubsysReco
 
   void Print(const std::string &what = "ALL") const override;
   
-  void getHEPMCTruth(PHCompositeNode *topNode);
+  void getPHG4Truth(PHCompositeNode *topNode);
   
   void getTracks(PHCompositeNode *topNode);
 
@@ -96,7 +96,7 @@ class diff_tagg_ana : public SubsysReco
   Fun4AllHistoManager *hm;
 
   TFile *outfile;
-  TTree *m_hepmctree;
+  TTree *m_truthtree;
   TTree *m_tracktree;
   TNtuple *g4hitntuple;
   TNtuple *clusterntuple;

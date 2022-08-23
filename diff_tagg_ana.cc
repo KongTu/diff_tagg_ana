@@ -239,7 +239,7 @@ int diff_tagg_ana::process_event(PHCompositeNode *topNode)
   m_svtxEvalStack = new SvtxEvalStack(topNode);
   m_svtxEvalStack->set_verbosity(Verbosity());
  /// Getting the Truth information
-  getHEPMCTruth(topNode);
+  getPHG4Truth(topNode);
   getTracks(topNode);
 
   event_itt++; 
@@ -294,87 +294,55 @@ void diff_tagg_ana::Print(const std::string &what) const
   std::cout << "diff_tagg_ana::Print(const std::string &what) const Printing info for " << what << std::endl;
 }
 
-void diff_tagg_ana::getHEPMCTruth(PHCompositeNode *topNode)
+/**
+ * This function collects the truth PHG4 stable particles that
+ * are produced from PYTHIA, or some other event generator. These
+ * are the stable particles, e.g. there are not any (for example)
+ * partons here.
+ */
+void diff_tagg_ana::getPHG4Truth(PHCompositeNode *topNode)
 {
-  /// Get the node from the node tree
-  PHHepMCGenEventMap *hepmceventmap = findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
+  /// G4 truth particle node
+  PHG4TruthInfoContainer *truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode, "G4TruthInfo");
 
-  /// If the node was not properly put on the tree, return
-  if (!hepmceventmap)
+  if (!truthinfo)
   {
     cout << PHWHERE
-         << "HEPMC event map node is missing, can't collected HEPMC truth particles"
+         << "PHG4TruthInfoContainer node is missing, can't collect G4 truth particles"
          << endl;
     return;
   }
 
-  /// Could have some print statements for debugging with verbosity
-  if (Verbosity() > 1)
+  /// Get the primary particle range
+  PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange();
+
+  /// Loop over the G4 truth (stable) particles
+  for (PHG4TruthInfoContainer::ConstIterator iter = range.first;
+       iter != range.second;
+       ++iter)
   {
-    cout << "Getting HEPMC truth particles " << endl;
-  }
+    /// Get this truth particle
+    const PHG4Particle *truth = iter->second;
 
-  /// You can iterate over the number of events in a hepmc event
-  /// for pile up events where you have multiple hard scatterings per bunch crossing
-  for (PHHepMCGenEventMap::ConstIter eventIter = hepmceventmap->begin();
-       eventIter != hepmceventmap->end();
-       ++eventIter)
-  {
-    /// Get the event
-    PHHepMCGenEvent *hepmcevent = eventIter->second;
+    /// Get this particles momentum, etc.
+    m_truthpx = truth->get_px();
+    m_truthpy = truth->get_py();
+    m_truthpz = truth->get_pz();
+    m_truthp = sqrt(m_truthpx * m_truthpx + m_truthpy * m_truthpy + m_truthpz * m_truthpz);
+    m_truthenergy = truth->get_e();
 
-    if (hepmcevent)
-    {
-      /// Get the event characteristics, inherited from HepMC classes
-      HepMC::GenEvent *truthevent = hepmcevent->getEvent();
-      if (!truthevent)
-      {
-        cout << PHWHERE
-             << "no evt pointer under phhepmvgeneventmap found "
-             << endl;
-        return;
-      }
+    m_truthpt = sqrt(m_truthpx * m_truthpx + m_truthpy * m_truthpy);
 
-      /// Get the parton info
-      HepMC::PdfInfo *pdfinfo = truthevent->pdf_info();
+    m_truthphi = atan2(m_truthpy, m_truthpx);
 
-      /// Get the parton info as determined from HEPMC
-      m_partid1 = pdfinfo->id1();
-      m_partid2 = pdfinfo->id2();
-      m_x1 = pdfinfo->x1();
-      m_x2 = pdfinfo->x2();
+    m_trutheta = atanh(m_truthpz / m_truthenergy);
+    /// Check for nans
+    if (m_trutheta != m_trutheta)
+      m_trutheta = -99;
+    m_truthpid = truth->get_pid();
 
-      /// Are there multiple partonic intercations in a p+p event
-      m_mpi = truthevent->mpi();
-
-      /// Get the PYTHIA signal process id identifying the 2-to-2 hard process
-      m_process_id = truthevent->signal_process_id();
-
-      if (Verbosity() > 2)
-      {
-        cout << " Iterating over an event" << endl;
-      }
-      /// Loop over all the truth particles and get their information
-      for (HepMC::GenEvent::particle_const_iterator iter = truthevent->particles_begin();
-           iter != truthevent->particles_end();
-           ++iter)
-      {
-        /// Get each pythia particle characteristics
-        m_truthenergy = (*iter)->momentum().e();
-        m_truthpid = (*iter)->pdg_id();
-
-        m_trutheta = (*iter)->momentum().pseudoRapidity();
-        m_truthphi = (*iter)->momentum().phi();
-        m_truthpx = (*iter)->momentum().px();
-        m_truthpy = (*iter)->momentum().py();
-        m_truthpz = (*iter)->momentum().pz();
-        m_truthpt = sqrt(m_truthpx * m_truthpx + m_truthpy * m_truthpy);
-
-        /// Fill the truth tree
-        m_hepmctree->Fill();
-        m_numparticlesinevent++;
-      }
-    }
+    /// Fill the g4 truth tree
+    m_truthtree->Fill();
   }
 }
 
