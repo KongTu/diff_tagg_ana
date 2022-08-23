@@ -353,16 +353,16 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
     m_tr_pt[ireco] = sqrt(m_tr_px[ireco] * m_tr_px[ireco] 
                           + m_tr_py[ireco] * m_tr_py[ireco]);
 
-    m_tr_phim_tr_pt[ireco] = track->get_phi();
-    m_tr_etam_tr_pt[ireco] = track->get_eta();
+    m_tr_phi[ireco] = track->get_phi();
+    m_tr_eta[ireco] = track->get_eta();
 
-    m_chargem_tr_pt[ireco] = track->get_charge();
-    m_chisqm_tr_pt[ireco] = track->get_chisq();
-    m_ndfm_tr_pt[ireco] = track->get_ndf();
-    m_dcam_tr_pt[ireco] = track->get_dca();
-    m_tr_xm_tr_pt[ireco] = track->get_x();
-    m_tr_ym_tr_pt[ireco] = track->get_y();
-    m_tr_zm_tr_pt[ireco] = track->get_z();
+    m_charge[ireco] = track->get_charge();
+    m_chisq[ireco] = track->get_chisq();
+    m_ndf[ireco] = track->get_ndf();
+    m_dca[ireco] = track->get_dca();
+    m_tr_x[ireco] = track->get_x();
+    m_tr_y[ireco] = track->get_y();
+    m_tr_z[ireco] = track->get_z();
 
     /// Ensure that the reco track is a fast sim track
     SvtxTrack_FastSim *temp = dynamic_cast<SvtxTrack_FastSim *>(iter->second);
