@@ -111,61 +111,63 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   event_itt = 0;
 
   m_truthtree = new TTree("truthg4tree", "A tree with truth g4 particles");
-  m_truthtree->Branch("m_truthenergy", &m_truthenergy, "m_truthenergy/D");
-  m_truthtree->Branch("m_truthp", &m_truthp, "m_truthp/D");
-  m_truthtree->Branch("m_truthpx", &m_truthpx, "m_truthpx/D");
-  m_truthtree->Branch("m_truthpy", &m_truthpy, "m_truthpy/D");
-  m_truthtree->Branch("m_truthpz", &m_truthpz, "m_truthpz/D");
-  m_truthtree->Branch("m_truthpt", &m_truthpt, "m_truthpt/D");
-  m_truthtree->Branch("m_truthphi", &m_truthphi, "m_truthphi/D");
-  m_truthtree->Branch("m_trutheta", &m_trutheta, "m_trutheta/D");
-  m_truthtree->Branch("m_truthpid", &m_truthpid, "m_truthpid/I");
+  m_truthtree->Branch("m_nMCtracks", &m_nMCtracks, "m_nMCtracks/I");
+  m_truthtree->Branch("m_truthenergy", m_truthenergy, "m_truthenergy[m_nMCtracks]/D");
+  m_truthtree->Branch("m_truthp", m_truthp, "m_truthp[m_nMCtracks]/D");
+  m_truthtree->Branch("m_truthpx", m_truthpx, "m_truthpx[m_nMCtracks]/D");
+  m_truthtree->Branch("m_truthpy", m_truthpy, "m_truthpy[m_nMCtracks]/D");
+  m_truthtree->Branch("m_truthpz", m_truthpz, "m_truthpz[m_nMCtracks]/D");
+  m_truthtree->Branch("m_truthpt", m_truthpt, "m_truthpt[m_nMCtracks]/D");
+  m_truthtree->Branch("m_truthphi", m_truthphi, "m_truthphi[m_nMCtracks]/D");
+  m_truthtree->Branch("m_trutheta", m_trutheta, "m_trutheta[m_nMCtracks]/D");
+  m_truthtree->Branch("m_truthpid", m_truthpid, "m_truthpid[m_nMCtracks]/I");
 
   m_tracktree = new TTree("tracktree", "A tree with svtx tracks");
-  m_tracktree->Branch("m_tr_px", &m_tr_px, "m_tr_px/D");
-  m_tracktree->Branch("m_tr_py", &m_tr_py, "m_tr_py/D");
-  m_tracktree->Branch("m_tr_pz", &m_tr_pz, "m_tr_pz/D");
-  m_tracktree->Branch("m_tr_p", &m_tr_p, "m_tr_p/D");
-  m_tracktree->Branch("m_tr_pt", &m_tr_pt, "m_tr_pt/D");
-  m_tracktree->Branch("m_tr_phi", &m_tr_phi, "m_tr_phi/D");
-  m_tracktree->Branch("m_tr_eta", &m_tr_eta, "m_tr_eta/D");
-  m_tracktree->Branch("m_charge", &m_charge, "m_charge/I");
-  m_tracktree->Branch("m_chisq", &m_chisq, "m_chisq/D");
-  m_tracktree->Branch("m_ndf", &m_ndf, "m_ndf/I");
-  m_tracktree->Branch("m_dca", &m_dca, "m_dca/D");
-  m_tracktree->Branch("m_tr_x", &m_tr_x, "m_tr_x/D");
-  m_tracktree->Branch("m_tr_y", &m_tr_y, "m_tr_y/D");
-  m_tracktree->Branch("m_tr_z", &m_tr_z, "m_tr_z/D");
-  m_tracktree->Branch("m_tr_pion_loglikelihood", &m_tr_pion_loglikelihood, "m_tr_pion_loglikelihood/F");
-  m_tracktree->Branch("m_tr_kaon_loglikelihood", &m_tr_kaon_loglikelihood, "m_tr_kaon_loglikelihood/F");
-  m_tracktree->Branch("m_tr_proton_loglikelihood", &m_tr_proton_loglikelihood, "m_tr_proton_loglikelihood/F");
-  m_tracktree->Branch("m_truth_is_primary", &m_truth_is_primary, "m_truth_is_primary/I");
-  m_tracktree->Branch("m_truthtrackpx", &m_truthtrackpx, "m_truthtrackpx/D");
-  m_tracktree->Branch("m_truthtrackpy", &m_truthtrackpy, "m_truthtrackpy/D");
-  m_tracktree->Branch("m_truthtrackpz", &m_truthtrackpz, "m_truthtrackpz/D");
-  m_tracktree->Branch("m_truthtrackp", &m_truthtrackp, "m_truthtrackp/D");
-  m_tracktree->Branch("m_truthtracke", &m_truthtracke, "m_truthtracke/D");
-  m_tracktree->Branch("m_truthtrackpt", &m_truthtrackpt, "m_truthtrackpt/D");
-  m_tracktree->Branch("m_truthtrackphi", &m_truthtrackphi, "m_truthtrackphi/D");
-  m_tracktree->Branch("m_truthtracketa", &m_truthtracketa, "m_truthtracketa/D");
-  m_tracktree->Branch("m_truthtrackpid", &m_truthtrackpid, "m_truthtrackpid/I");
+  m_tracktree->Branch("m_nRECtracks", &m_nRECtracks, "m_nRECtracks/I");
+  m_tracktree->Branch("m_tr_px", m_tr_px, "m_tr_px[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_py", m_tr_py, "m_tr_py[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_pz", m_tr_pz, "m_tr_pz[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_p", m_tr_p, "m_tr_p[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_pt", m_tr_pt, "m_tr_pt[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_phi", m_tr_phi, "m_tr_phi[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_eta", m_tr_eta, "m_tr_eta[m_nRECtracks]/D");
+  m_tracktree->Branch("m_charge", m_charge, "m_charge[m_nRECtracks]/I");
+  m_tracktree->Branch("m_chisq", m_chisq, "m_chisq[m_nRECtracks]/D");
+  m_tracktree->Branch("m_ndf", m_ndf, "m_ndf[m_nRECtracks]/I");
+  m_tracktree->Branch("m_dca", m_dca, "m_dca[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_x", m_tr_x, "m_tr_x[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_y", m_tr_y, "m_tr_y[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_z", m_tr_z, "m_tr_z[m_nRECtracks]/D");
+  m_tracktree->Branch("m_tr_pion_loglikelihood", m_tr_pion_loglikelihood, "m_tr_pion_loglikelihood[m_nRECtracks]/F");
+  m_tracktree->Branch("m_tr_kaon_loglikelihood", m_tr_kaon_loglikelihood, "m_tr_kaon_loglikelihood[m_nRECtracks]/F");
+  m_tracktree->Branch("m_tr_proton_loglikelihood", m_tr_proton_loglikelihood, "m_tr_proton_loglikelihood[m_nRECtracks]/F");
+  m_tracktree->Branch("m_truth_is_primary", m_truth_is_primary, "m_truth_is_primary[m_nRECtracks]/I");
+  m_tracktree->Branch("m_truthtrackpx", m_truthtrackpx, "m_truthtrackpx[m_nRECtracks]/D");
+  m_tracktree->Branch("m_truthtrackpy", m_truthtrackpy, "m_truthtrackpy[m_nRECtracks]/D");
+  m_tracktree->Branch("m_truthtrackpz", m_truthtrackpz, "m_truthtrackpz[m_nRECtracks]/D");
+  m_tracktree->Branch("m_truthtrackp", m_truthtrackp, "m_truthtrackp[m_nRECtracks]/D");
+  m_tracktree->Branch("m_truthtracke", m_truthtracke, "m_truthtracke[m_nRECtracks]/D");
+  m_tracktree->Branch("m_truthtrackpt", m_truthtrackpt, "m_truthtrackpt[m_nRECtracks]/D");
+  m_tracktree->Branch("m_truthtrackphi", m_truthtrackphi, "m_truthtrackphi[m_nRECtracks]/D");
+  m_tracktree->Branch("m_truthtracketa", m_truthtracketa, "m_truthtracketa[m_nRECtracks]/D");
+  m_tracktree->Branch("m_truthtrackpid", m_truthtrackpid, "m_truthtrackpid[m_nRECtracks]/I");
 
-  m_partid1 = -99;
-  m_partid2 = -99;
-  m_x1 = -99;
-  m_x2 = -99;
-  m_mpi = -99;
-  m_process_id = -99;
-  m_truthenergy = -99;
-  m_trutheta = -99;
-  m_truthphi = -99;
-  m_truthp = -99;
-  m_truthpx = -99;
-  m_truthpy = -99;
-  m_truthpz = -99;
-  m_truthpt = -99;
-  m_numparticlesinevent = -99;
-  m_truthpid = -99;
+  // m_partid1 = -99;
+  // m_partid2 = -99;
+  // m_x1 = -99;
+  // m_x2 = -99;
+  // m_mpi = -99;
+  // m_process_id = -99;
+  // m_truthenergy = -99;
+  // m_trutheta = -99;
+  // m_truthphi = -99;
+  // m_truthp = -99;
+  // m_truthpx = -99;
+  // m_truthpy = -99;
+  // m_truthpz = -99;
+  // m_truthpt = -99;
+  // m_numparticlesinevent = -99;
+  // m_truthpid = -99;
 
   m_tr_px = -99;
   m_tr_py = -99;
@@ -234,7 +236,7 @@ int diff_tagg_ana::process_event(PHCompositeNode *topNode)
   m_svtxEvalStack->set_verbosity(Verbosity());
  /// Getting the Truth information
   getPHG4Truth(topNode);
-  getTracks(topNode);
+  // getTracks(topNode);
 
   event_itt++; 
  
@@ -310,6 +312,7 @@ void diff_tagg_ana::getPHG4Truth(PHCompositeNode *topNode)
   /// Get the primary particle range
   PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange();
 
+  int itruth=0;
   /// Loop over the G4 truth (stable) particles
   for (PHG4TruthInfoContainer::ConstIterator iter = range.first;
        iter != range.second;
@@ -319,25 +322,30 @@ void diff_tagg_ana::getPHG4Truth(PHCompositeNode *topNode)
     const PHG4Particle *truth = iter->second;
 
     /// Get this particles momentum, etc.
-    m_truthpx = truth->get_px();
-    m_truthpy = truth->get_py();
-    m_truthpz = truth->get_pz();
-    m_truthp = sqrt(m_truthpx * m_truthpx + m_truthpy * m_truthpy + m_truthpz * m_truthpz);
-    m_truthenergy = truth->get_e();
+    m_truthpx[itruth] = truth->get_px();
+    m_truthpy[itruth] = truth->get_py();
+    m_truthpz[itruth] = truth->get_pz();
+    m_truthp[itruth] = sqrt(m_truthpx[itruth] * m_truthpx[itruth]
+                             + m_truthpy[itruth] * m_truthpy[itruth] 
+                                  + m_truthpz[itruth] * m_truthpz[itruth]);
+    m_truthenergy[itruth] = truth->get_e();
 
-    m_truthpt = sqrt(m_truthpx * m_truthpx + m_truthpy * m_truthpy);
+    m_truthpt[itruth] = sqrt(m_truthpx[itruth] * m_truthpx[itruth] + m_truthpy[itruth] * m_truthpy[itruth]);
 
-    m_truthphi = atan2(m_truthpy, m_truthpx);
+    m_truthphi[itruth] = atan2(m_truthpy[itruth], m_truthpx[itruth]);
 
-    m_trutheta = atanh(m_truthpz / m_truthenergy);
+    m_trutheta[itruth] = atanh(m_truthpz[itruth] / m_truthenergy[itruth]);
     /// Check for nans
-    if (m_trutheta != m_trutheta)
-      m_trutheta = -99;
-    m_truthpid = truth->get_pid();
+    if (m_trutheta[itruth] != m_trutheta[itruth])
+      m_trutheta[itruth] = -99;
+    m_truthpid[itruth] = truth->get_pid();
 
-    /// Fill the g4 truth tree
-    m_truthtree->Fill();
+    itruth++;
   }
+  m_nMCtracks=itruth;
+  /// Fill the g4 truth tree
+  m_truthtree->Fill();
+
 }
 
 /**
@@ -347,104 +355,104 @@ void diff_tagg_ana::getPHG4Truth(PHCompositeNode *topNode)
 void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
 {
   /// Tracks node
-  SvtxTrackMap *trackmap = findNode::getClass<SvtxTrackMap>(topNode, "TrackMap");
-  EICPIDParticleContainer *pidcontainer = findNode::getClass<EICPIDParticleContainer>(topNode, "EICPIDParticleMap");
+  // SvtxTrackMap *trackmap = findNode::getClass<SvtxTrackMap>(topNode, "TrackMap");
+  // EICPIDParticleContainer *pidcontainer = findNode::getClass<EICPIDParticleContainer>(topNode, "EICPIDParticleMap");
 
-  if (Verbosity() > 1 and pidcontainer == nullptr)
-  {
-    cout << "EICPIDParticleContainer named EICPIDParticleMap does not exist. Skip saving PID info" << endl;
-  }
+  // if (Verbosity() > 1 and pidcontainer == nullptr)
+  // {
+  //   cout << "EICPIDParticleContainer named EICPIDParticleMap does not exist. Skip saving PID info" << endl;
+  // }
 
-  if (!trackmap)
-  {
-    cout << PHWHERE
-         << "TrackMap node is missing, can't collect tracks"
-         << endl;
-    return;
-  }
+  // if (!trackmap)
+  // {
+  //   cout << PHWHERE
+  //        << "TrackMap node is missing, can't collect tracks"
+  //        << endl;
+  //   return;
+  // }
 
-  /// Get the range for primary tracks
-  PHG4TruthInfoContainer *truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode, "G4TruthInfo");
+  // /// Get the range for primary tracks
+  // PHG4TruthInfoContainer *truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode, "G4TruthInfo");
 
-  if (Verbosity() > 1)
-  {
-    cout << "Get the tracks" << endl;
-  }
-  for (SvtxTrackMap::Iter iter = trackmap->begin();
-       iter != trackmap->end();
-       ++iter)
-  {
-    SvtxTrack *track = iter->second;
+  // if (Verbosity() > 1)
+  // {
+  //   cout << "Get the tracks" << endl;
+  // }
+  // for (SvtxTrackMap::Iter iter = trackmap->begin();
+  //      iter != trackmap->end();
+  //      ++iter)
+  // {
+  //   SvtxTrack *track = iter->second;
 
-    /// Get the reconstructed track info
-    m_tr_px = track->get_px();
-    m_tr_py = track->get_py();
-    m_tr_pz = track->get_pz();
-    m_tr_p = sqrt(m_tr_px * m_tr_px + m_tr_py * m_tr_py + m_tr_pz * m_tr_pz);
+  //   /// Get the reconstructed track info
+  //   m_tr_px = track->get_px();
+  //   m_tr_py = track->get_py();
+  //   m_tr_pz = track->get_pz();
+  //   m_tr_p = sqrt(m_tr_px * m_tr_px + m_tr_py * m_tr_py + m_tr_pz * m_tr_pz);
 
-    m_tr_pt = sqrt(m_tr_px * m_tr_px + m_tr_py * m_tr_py);
+  //   m_tr_pt = sqrt(m_tr_px * m_tr_px + m_tr_py * m_tr_py);
 
-    // Make some cuts on the track to clean up sample
-    if (m_tr_pt < 0.5)
-      continue;
+  //   // Make some cuts on the track to clean up sample
+  //   if (m_tr_pt < 0.5)
+  //     continue;
 
-    m_tr_phi = track->get_phi();
-    m_tr_eta = track->get_eta();
+  //   m_tr_phi = track->get_phi();
+  //   m_tr_eta = track->get_eta();
 
-    m_charge = track->get_charge();
-    m_chisq = track->get_chisq();
-    m_ndf = track->get_ndf();
-    m_dca = track->get_dca();
-    m_tr_x = track->get_x();
-    m_tr_y = track->get_y();
-    m_tr_z = track->get_z();
+  //   m_charge = track->get_charge();
+  //   m_chisq = track->get_chisq();
+  //   m_ndf = track->get_ndf();
+  //   m_dca = track->get_dca();
+  //   m_tr_x = track->get_x();
+  //   m_tr_y = track->get_y();
+  //   m_tr_z = track->get_z();
 
-    /// Ensure that the reco track is a fast sim track
-    SvtxTrack_FastSim *temp = dynamic_cast<SvtxTrack_FastSim *>(iter->second);
-    if (!temp)
-    {
-      if (Verbosity() > 0)
-        std::cout << "Skipping non fast track sim object..." << std::endl;
-      continue;
-    }
+  //   /// Ensure that the reco track is a fast sim track
+  //   SvtxTrack_FastSim *temp = dynamic_cast<SvtxTrack_FastSim *>(iter->second);
+  //   if (!temp)
+  //   {
+  //     if (Verbosity() > 0)
+  //       std::cout << "Skipping non fast track sim object..." << std::endl;
+  //     continue;
+  //   }
 
-    /// Get truth track info that matches this reconstructed track
-    PHG4Particle *truthtrack = truthinfo->GetParticle(temp->get_truth_track_id());
-    if (truthtrack)
-    {
-      m_truth_is_primary = truthinfo->is_primary(truthtrack);
+  //   /// Get truth track info that matches this reconstructed track
+  //   PHG4Particle *truthtrack = truthinfo->GetParticle(temp->get_truth_track_id());
+  //   if (truthtrack)
+  //   {
+  //     m_truth_is_primary = truthinfo->is_primary(truthtrack);
 
-      m_truthtrackpx = truthtrack->get_px();
-      m_truthtrackpy = truthtrack->get_py();
-      m_truthtrackpz = truthtrack->get_pz();
-      m_truthtrackp = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy + m_truthtrackpz * m_truthtrackpz);
+  //     m_truthtrackpx = truthtrack->get_px();
+  //     m_truthtrackpy = truthtrack->get_py();
+  //     m_truthtrackpz = truthtrack->get_pz();
+  //     m_truthtrackp = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy + m_truthtrackpz * m_truthtrackpz);
 
-      m_truthtracke = truthtrack->get_e();
+  //     m_truthtracke = truthtrack->get_e();
 
-      m_truthtrackpt = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy);
-      m_truthtrackphi = atan2(m_truthtrackpy, m_truthtrackpx);
-      m_truthtracketa = atanh(m_truthtrackpz / m_truthtrackp);
-      m_truthtrackpid = truthtrack->get_pid();
-    }
+  //     m_truthtrackpt = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy);
+  //     m_truthtrackphi = atan2(m_truthtrackpy, m_truthtrackpx);
+  //     m_truthtracketa = atanh(m_truthtrackpz / m_truthtrackp);
+  //     m_truthtrackpid = truthtrack->get_pid();
+  //   }
 
-    // match to PIDparticles
-    if (pidcontainer)
-    {
-      // EICPIDParticle are index the same as the tracks
-      const EICPIDParticle *pid_particle =
-          pidcontainer->findEICPIDParticle(track->get_id());
+  //   // match to PIDparticles
+  //   if (pidcontainer)
+  //   {
+  //     // EICPIDParticle are index the same as the tracks
+  //     const EICPIDParticle *pid_particle =
+  //         pidcontainer->findEICPIDParticle(track->get_id());
 
-      if (pid_particle)
-      {
-        // top level log likelihood sums.
-        // More detailed per-detector information also available at  EICPIDParticle::get_LogLikelyhood(EICPIDDefs::PIDCandidate, EICPIDDefs::PIDDetector)
-        m_tr_pion_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::PionCandiate);
-        m_tr_kaon_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::KaonCandiate);
-        m_tr_proton_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::ProtonCandiate);
-      }
-    }
+  //     if (pid_particle)
+  //     {
+  //       // top level log likelihood sums.
+  //       // More detailed per-detector information also available at  EICPIDParticle::get_LogLikelyhood(EICPIDDefs::PIDCandidate, EICPIDDefs::PIDDetector)
+  //       m_tr_pion_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::PionCandiate);
+  //       m_tr_kaon_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::KaonCandiate);
+  //       m_tr_proton_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::ProtonCandiate);
+  //     }
+  //   }
 
-    m_tracktree->Fill();
-  }
+  //   m_tracktree->Fill();
+  // }
 }
 
