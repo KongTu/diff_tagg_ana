@@ -110,22 +110,16 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 
   event_itt = 0;
 
-  m_hepmctree = new TTree("hepmctree", "A tree with hepmc truth particles");
-  m_hepmctree->Branch("m_partid1", &m_partid1, "m_partid1/I");
-  m_hepmctree->Branch("m_partid2", &m_partid2, "m_partid2/I");
-  m_hepmctree->Branch("m_x1", &m_x1, "m_x1/D");
-  m_hepmctree->Branch("m_x2", &m_x2, "m_x2/D");
-  m_hepmctree->Branch("m_mpi", &m_mpi, "m_mpi/I");
-  m_hepmctree->Branch("m_process_id", &m_process_id, "m_process_id/I");
-  m_hepmctree->Branch("m_truthenergy", &m_truthenergy, "m_truthenergy/D");
-  m_hepmctree->Branch("m_trutheta", &m_trutheta, "m_trutheta/D");
-  m_hepmctree->Branch("m_truthphi", &m_truthphi, "m_truthphi/D");
-  m_hepmctree->Branch("m_truthpx", &m_truthpx, "m_truthpx/D");
-  m_hepmctree->Branch("m_truthpy", &m_truthpy, "m_truthpy/D");
-  m_hepmctree->Branch("m_truthpz", &m_truthpz, "m_truthpz/D");
-  m_hepmctree->Branch("m_truthpt", &m_truthpt, "m_truthpt/D");
-  m_hepmctree->Branch("m_numparticlesinevent", &m_numparticlesinevent, "m_numparticlesinevent/I");
-  m_hepmctree->Branch("m_truthpid", &m_truthpid, "m_truthpid/I");
+  m_truthtree = new TTree("truthg4tree", "A tree with truth g4 particles");
+  m_truthtree->Branch("m_truthenergy", &m_truthenergy, "m_truthenergy/D");
+  m_truthtree->Branch("m_truthp", &m_truthp, "m_truthp/D");
+  m_truthtree->Branch("m_truthpx", &m_truthpx, "m_truthpx/D");
+  m_truthtree->Branch("m_truthpy", &m_truthpy, "m_truthpy/D");
+  m_truthtree->Branch("m_truthpz", &m_truthpz, "m_truthpz/D");
+  m_truthtree->Branch("m_truthpt", &m_truthpt, "m_truthpt/D");
+  m_truthtree->Branch("m_truthphi", &m_truthphi, "m_truthphi/D");
+  m_truthtree->Branch("m_trutheta", &m_trutheta, "m_trutheta/D");
+  m_truthtree->Branch("m_truthpid", &m_truthpid, "m_truthpid/I")
 
   m_tracktree = new TTree("tracktree", "A tree with svtx tracks");
   m_tracktree->Branch("m_tr_px", &m_tr_px, "m_tr_px/D");
@@ -271,7 +265,7 @@ int diff_tagg_ana::End(PHCompositeNode *topNode)
   std::cout << "diff_tagg_ana::End(PHCompositeNode *topNode) This is the End..." << std::endl;
 
   outfile->cd();
-  m_hepmctree->Write();
+  m_truthtree->Write();
   m_tracktree->Write();
   outfile->Write();
   outfile->Close();
