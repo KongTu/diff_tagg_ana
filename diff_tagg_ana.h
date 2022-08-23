@@ -152,6 +152,8 @@ class diff_tagg_ana : public SubsysReco
 
   /// Track variables
   int m_nRECtracks;
+  int m_nRECtracksMatch;
+  int m_nRECtracksPID;
   double m_tr_px[200];
   double m_tr_py[200];
   double m_tr_pz[200];

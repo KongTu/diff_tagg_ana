@@ -124,6 +124,8 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 
   m_tracktree = new TTree("tracktree", "A tree with svtx tracks");
   m_tracktree->Branch("m_nRECtracks", &m_nRECtracks, "m_nRECtracks/I");
+  m_tracktree->Branch("m_nRECtracksMatch", &m_nRECtracksMatch, "m_nRECtracksMatch/I");
+  m_tracktree->Branch("m_nRECtracksPID", &m_nRECtracksPID, "m_nRECtracksPID/I");
   m_tracktree->Branch("m_tr_px", m_tr_px, "m_tr_px[m_nRECtracks]/D");
   m_tracktree->Branch("m_tr_py", m_tr_py, "m_tr_py[m_nRECtracks]/D");
   m_tracktree->Branch("m_tr_pz", m_tr_pz, "m_tr_pz[m_nRECtracks]/D");
@@ -151,52 +153,6 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   m_tracktree->Branch("m_truthtrackphi", m_truthtrackphi, "m_truthtrackphi[m_nRECtracks]/D");
   m_tracktree->Branch("m_truthtracketa", m_truthtracketa, "m_truthtracketa[m_nRECtracks]/D");
   m_tracktree->Branch("m_truthtrackpid", m_truthtrackpid, "m_truthtrackpid[m_nRECtracks]/I");
-
-  // m_partid1 = -99;
-  // m_partid2 = -99;
-  // m_x1 = -99;
-  // m_x2 = -99;
-  // m_mpi = -99;
-  // m_process_id = -99;
-  // m_truthenergy = -99;
-  // m_trutheta = -99;
-  // m_truthphi = -99;
-  // m_truthp = -99;
-  // m_truthpx = -99;
-  // m_truthpy = -99;
-  // m_truthpz = -99;
-  // m_truthpt = -99;
-  // m_numparticlesinevent = -99;
-  // m_truthpid = -99;
-
-  // m_tr_px = -99;
-  // m_tr_py = -99;
-  // m_tr_pz = -99;
-  // m_tr_p = -99;
-  // m_tr_pt = -99;
-  // m_tr_phi = -99;
-  // m_tr_eta = -99;
-  // m_charge = -99;
-  // m_chisq = -99;
-  // m_ndf = -99;
-  // m_dca = -99;
-  // m_tr_x = -99;
-  // m_tr_y = -99;
-  // m_tr_z = -99;
-  // m_tr_pion_loglikelihood = -99;
-  // m_tr_kaon_loglikelihood = -99;
-  // m_tr_proton_loglikelihood = -99;
-  // m_truth_is_primary = -99;
-  // m_truthtrackpx = -99;
-  // m_truthtrackpy = -99;
-  // m_truthtrackpz = -99;
-  // m_truthtrackp = -99;
-  // m_truthtracke = -99;
-  // m_truthtrackpt = -99;
-  // m_truthtrackphi = -99;
-  // m_truthtracketa = -99;
-  // m_truthtrackpid = -99;
-
 
   ///**********************************/
   // Parameter definition
@@ -234,9 +190,10 @@ int diff_tagg_ana::process_event(PHCompositeNode *topNode)
 
   m_svtxEvalStack = new SvtxEvalStack(topNode);
   m_svtxEvalStack->set_verbosity(Verbosity());
- /// Getting the Truth information
+  // Getting the MC information
   getPHG4Truth(topNode);
-  // getTracks(topNode);
+  // Getting the RECO information
+  getTracks(topNode);
 
   event_itt++; 
  
@@ -354,105 +311,113 @@ void diff_tagg_ana::getPHG4Truth(PHCompositeNode *topNode)
  */
 void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
 {
-  /// Tracks node
-  // SvtxTrackMap *trackmap = findNode::getClass<SvtxTrackMap>(topNode, "TrackMap");
-  // EICPIDParticleContainer *pidcontainer = findNode::getClass<EICPIDParticleContainer>(topNode, "EICPIDParticleMap");
+  //  Tracks node
+  SvtxTrackMap *trackmap = findNode::getClass<SvtxTrackMap>(topNode, "TrackMap");
+  EICPIDParticleContainer *pidcontainer = findNode::getClass<EICPIDParticleContainer>(topNode, "EICPIDParticleMap");
 
-  // if (Verbosity() > 1 and pidcontainer == nullptr)
-  // {
-  //   cout << "EICPIDParticleContainer named EICPIDParticleMap does not exist. Skip saving PID info" << endl;
-  // }
+  if (Verbosity() > 1 and pidcontainer == nullptr)
+  {
+    cout << "EICPIDParticleContainer named EICPIDParticleMap does not exist. Skip saving PID info" << endl;
+  }
 
-  // if (!trackmap)
-  // {
-  //   cout << PHWHERE
-  //        << "TrackMap node is missing, can't collect tracks"
-  //        << endl;
-  //   return;
-  // }
+  if (!trackmap)
+  {
+    cout << PHWHERE
+         << "TrackMap node is missing, can't collect tracks"
+         << endl;
+    return;
+  }
 
-  // /// Get the range for primary tracks
-  // PHG4TruthInfoContainer *truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode, "G4TruthInfo");
+  /// Get the range for primary tracks
+  PHG4TruthInfoContainer *truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode, "G4TruthInfo");
 
-  // if (Verbosity() > 1)
-  // {
-  //   cout << "Get the tracks" << endl;
-  // }
-  // for (SvtxTrackMap::Iter iter = trackmap->begin();
-  //      iter != trackmap->end();
-  //      ++iter)
-  // {
-  //   SvtxTrack *track = iter->second;
+  if (Verbosity() > 1)
+  {
+    cout << "Get the tracks" << endl;
+  }
+  int ireco=0;
+  int imatch=0;
+  for (SvtxTrackMap::Iter iter = trackmap->begin();
+       iter != trackmap->end();
+       ++iter)
+  {
+    SvtxTrack *track = iter->second;
 
-  //   /// Get the reconstructed track info
-  //   m_tr_px = track->get_px();
-  //   m_tr_py = track->get_py();
-  //   m_tr_pz = track->get_pz();
-  //   m_tr_p = sqrt(m_tr_px * m_tr_px + m_tr_py * m_tr_py + m_tr_pz * m_tr_pz);
+    /// Get the reconstructed track info
+    m_tr_px[ireco] = track->get_px();
+    m_tr_py[ireco] = track->get_py();
+    m_tr_pz[ireco] = track->get_pz();
+    m_tr_p[ireco] = sqrt(m_tr_px[ireco] * m_tr_px[ireco] 
+                          + m_tr_py[ireco] * m_tr_py[ireco] 
+                            + m_tr_pz[ireco] * m_tr_pz[ireco]);
+    m_tr_pt[ireco] = sqrt(m_tr_px[ireco] * m_tr_px[ireco] 
+                          + m_tr_py[ireco] * m_tr_py[ireco]);
 
-  //   m_tr_pt = sqrt(m_tr_px * m_tr_px + m_tr_py * m_tr_py);
+    m_tr_phim_tr_pt[ireco] = track->get_phi();
+    m_tr_etam_tr_pt[ireco] = track->get_eta();
 
-  //   // Make some cuts on the track to clean up sample
-  //   if (m_tr_pt < 0.5)
-  //     continue;
+    m_chargem_tr_pt[ireco] = track->get_charge();
+    m_chisqm_tr_pt[ireco] = track->get_chisq();
+    m_ndfm_tr_pt[ireco] = track->get_ndf();
+    m_dcam_tr_pt[ireco] = track->get_dca();
+    m_tr_xm_tr_pt[ireco] = track->get_x();
+    m_tr_ym_tr_pt[ireco] = track->get_y();
+    m_tr_zm_tr_pt[ireco] = track->get_z();
 
-  //   m_tr_phi = track->get_phi();
-  //   m_tr_eta = track->get_eta();
+    /// Ensure that the reco track is a fast sim track
+    SvtxTrack_FastSim *temp = dynamic_cast<SvtxTrack_FastSim *>(iter->second);
+    if (!temp)
+    {
+      if (Verbosity() > 0)
+        std::cout << "Skipping non fast track sim object..." << std::endl;
+      continue;
+    }
 
-  //   m_charge = track->get_charge();
-  //   m_chisq = track->get_chisq();
-  //   m_ndf = track->get_ndf();
-  //   m_dca = track->get_dca();
-  //   m_tr_x = track->get_x();
-  //   m_tr_y = track->get_y();
-  //   m_tr_z = track->get_z();
+    /// Get truth track info that matches this reconstructed track
+    PHG4Particle *truthtrack = truthinfo->GetParticle(temp->get_truth_track_id());
+    if (truthtrack)
+    {
+      m_truth_is_primary[imatch] = truthinfo->is_primary(truthtrack);
 
-  //   /// Ensure that the reco track is a fast sim track
-  //   SvtxTrack_FastSim *temp = dynamic_cast<SvtxTrack_FastSim *>(iter->second);
-  //   if (!temp)
-  //   {
-  //     if (Verbosity() > 0)
-  //       std::cout << "Skipping non fast track sim object..." << std::endl;
-  //     continue;
-  //   }
+      m_truthtrackpx[imatch] = truthtrack->get_px();
+      m_truthtrackpy[imatch] = truthtrack->get_py();
+      m_truthtrackpz[imatch] = truthtrack->get_pz();
+      m_truthtrackp[imatch] = sqrt(m_truthtrackpx[imatch] * m_truthtrackpx[imatch] 
+                                  + m_truthtrackpy[imatch] * m_truthtrackpy[imatch] 
+                                  + m_truthtrackpz[imatch] * m_truthtrackpz[imatch]);
 
-  //   /// Get truth track info that matches this reconstructed track
-  //   PHG4Particle *truthtrack = truthinfo->GetParticle(temp->get_truth_track_id());
-  //   if (truthtrack)
-  //   {
-  //     m_truth_is_primary = truthinfo->is_primary(truthtrack);
+      m_truthtracke[imatch] = truthtrack->get_e();
 
-  //     m_truthtrackpx = truthtrack->get_px();
-  //     m_truthtrackpy = truthtrack->get_py();
-  //     m_truthtrackpz = truthtrack->get_pz();
-  //     m_truthtrackp = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy + m_truthtrackpz * m_truthtrackpz);
+      m_truthtrackpt[imatch] = sqrt(m_truthtrackpx[imatch] * m_truthtrackpx[imatch] 
+                                    + m_truthtrackpy[imatch] * m_truthtrackpy[imatch]);
+      m_truthtrackphi[imatch] = atan2(m_truthtrackpy[imatch], m_truthtrackpx[imatch]);
+      m_truthtracketa[imatch] = atanh(m_truthtrackpz[imatch] / m_truthtrackp[imatch]);
+      m_truthtrackpid[imatch] = truthtrack->get_pid();
+      imatch++;
+    }
+    m_nRECtracksMatch=imatch;
 
-  //     m_truthtracke = truthtrack->get_e();
+    int ipid=0;
+    // match to PIDparticles
+    if (pidcontainer)
+    {
+      // EICPIDParticle are index the same as the tracks
+      const EICPIDParticle *pid_particle =
+          pidcontainer->findEICPIDParticle(track->get_id());
 
-  //     m_truthtrackpt = sqrt(m_truthtrackpx * m_truthtrackpx + m_truthtrackpy * m_truthtrackpy);
-  //     m_truthtrackphi = atan2(m_truthtrackpy, m_truthtrackpx);
-  //     m_truthtracketa = atanh(m_truthtrackpz / m_truthtrackp);
-  //     m_truthtrackpid = truthtrack->get_pid();
-  //   }
+      if (pid_particle)
+      {
+        // top level log likelihood sums.
+        // More detailed per-detector information also available at  EICPIDParticle::get_LogLikelyhood(EICPIDDefs::PIDCandidate, EICPIDDefs::PIDDetector)
+        m_tr_pion_loglikelihood[ipid] = pid_particle->get_SumLogLikelyhood(EICPIDDefs::PionCandiate);
+        m_tr_kaon_loglikelihood[ipid] = pid_particle->get_SumLogLikelyhood(EICPIDDefs::KaonCandiate);
+        m_tr_proton_loglikelihood[ipid] = pid_particle->get_SumLogLikelyhood(EICPIDDefs::ProtonCandiate);
+        ipid++;
+      }
+    }
+    m_nRECtracksPID=ipid;
 
-  //   // match to PIDparticles
-  //   if (pidcontainer)
-  //   {
-  //     // EICPIDParticle are index the same as the tracks
-  //     const EICPIDParticle *pid_particle =
-  //         pidcontainer->findEICPIDParticle(track->get_id());
-
-  //     if (pid_particle)
-  //     {
-  //       // top level log likelihood sums.
-  //       // More detailed per-detector information also available at  EICPIDParticle::get_LogLikelyhood(EICPIDDefs::PIDCandidate, EICPIDDefs::PIDDetector)
-  //       m_tr_pion_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::PionCandiate);
-  //       m_tr_kaon_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::KaonCandiate);
-  //       m_tr_proton_loglikelihood = pid_particle->get_SumLogLikelyhood(EICPIDDefs::ProtonCandiate);
-  //     }
-  //   }
-
-  //   m_tracktree->Fill();
-  // }
+    m_tracktree->Fill();
+  }
 }
 
