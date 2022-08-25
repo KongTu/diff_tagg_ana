@@ -4,7 +4,8 @@
 #define DIFF_TAGG_ANA_H
 
 #include <fun4all/SubsysReco.h>
-
+#include <fun4all/Fun4AllServer.h>
+#include <fun4all/Fun4AllDstInputManager.h>
 #include <fun4all/Fun4AllServer.h>
 #include <g4main/PHG4Reco.h>
 
@@ -31,7 +32,55 @@
 #include <trackbase_historic/SvtxTrack_FastSim.h>
 #include <trackbase_historic/SvtxVertex.h>
 #include <trackbase_historic/SvtxVertexMap.h>
-// #include <SvtxTrack.h>
+
+#include <fun4all/Fun4AllReturnCodes.h>
+
+#include <stdio.h>
+
+#include <fun4all/Fun4AllHistoManager.h>
+
+#include <phool/PHCompositeNode.h>
+#include <phool/PHIODataNode.h>
+#include <phool/PHNode.h>  // for PHNode
+#include <phool/PHNodeIterator.h>
+#include <phool/PHObject.h>  // for PHObject
+#include <phool/PHRandomSeed.h>
+#include <phool/getClass.h>
+#include <phool/phool.h>
+
+// G4Hits includes
+#include <g4main/PHG4Hit.h>
+#include <g4main/PHG4HitContainer.h>
+
+// Cluster includes
+#include <calobase/RawCluster.h>
+#include <calobase/RawClusterContainer.h>
+
+#include <TFile.h>
+#include <TNtuple.h>
+
+#include <cassert>
+#include <sstream>
+#include <string>
+#include <iostream>
+
+/// HEPMC truth includes
+#include <HepMC/GenEvent.h>
+#include <HepMC/GenVertex.h>
+#include <phhepmc/PHHepMCGenEvent.h>
+#include <phhepmc/PHHepMCGenEventMap.h>
+
+/// Fun4All includes
+#include <g4main/PHG4Particle.h>
+#include <g4main/PHG4TruthInfoContainer.h>
+
+//PID includes
+#include <eicpidbase/EICPIDParticle.h>
+#include <eicpidbase/EICPIDParticleContainer.h>
+
+#include <pdbcalbase/PdbParameterMapContainer.h>
+
+using namespace std;
 
 class Fun4AllHistoManager;
 class PHCompositeNode;
@@ -81,10 +130,13 @@ class diff_tagg_ana : public SubsysReco
 
   void Print(const std::string &what = "ALL") const override;
   
+  /// Event tree
   void getEvent(PHCompositeNode *topNode);
 
+  /// MC tree
   void getPHG4Truth(PHCompositeNode *topNode);
   
+  /// REC tree
   void getTracks(PHCompositeNode *topNode);
 
 // private:

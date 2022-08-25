@@ -284,7 +284,7 @@ void diff_tagg_ana::getEvent(PHCompositeNode *topNode)
 
     if ( truth->get_pid() == 11 ){ 
     // PDG 11 -> Scattered electron
-      // we pick the lowest eta and maximum energy;
+      // We pick the lowest eta and maximum energy;
         e4VectTruth.SetPxPyPzE(truth->get_px(), truth->get_py(), truth->get_pz(), truth->get_e());
         if(e4VectTruth.Eta()<mineta && e4VectTruth.E()>maxenergy){
           virtphoton4VectTruth = eBeam4Vect - e4VectTruth;
@@ -364,7 +364,6 @@ void diff_tagg_ana::getPHG4Truth(PHCompositeNode *topNode)
   m_nMCtracks=itruth;
   /// Fill the g4 truth tree
   m_truthtree->Fill();
-
 }
 
 /**
