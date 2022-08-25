@@ -140,16 +140,16 @@ int diff_tagg_ana::InitRun(PHCompositeNode *topNode)
      cerr << "There is a issue finding the detector paramter node!" << endl;
   }
 
-  //rp 1
+  //RP
   rp_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth");
   rp_nodeparams->print();
-  //rp 2
-  rp2_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth2");
+  //OMD
+  rp2_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_offMomTruth");
   rp2_nodeparams->print();
   //b0
-  // // b0_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_b0Truth_0");
-  // // //zdc
-  // // zdc_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_ZDCsurrogate");
+  b0_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_b0Truth_0");
+  //zdc
+  zdc_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_ZDCsurrogate");
 
   cout << " END initialization" << endl;
   return Fun4AllReturnCodes::EVENT_OK;
