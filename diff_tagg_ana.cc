@@ -480,24 +480,27 @@ void diff_tagg_ana::getZDC(PHCompositeNode* topNode)
                         hit_iter->second->get_y(1),
                         hit_iter->second->get_z(1),
                         hit_iter->second->get_edep());
-
     }
   }
+  cout <<"getZDC " << endl;
 
 }
 
 void diff_tagg_ana::getRP(PHCompositeNode* topNode)
 {
+  cout <<"getRP " << endl;
 
 }
 
 void diff_tagg_ana::getOMD(PHCompositeNode* topNode)
 {
+  cout <<"getOMD " << endl;
 
 }
 
 void diff_tagg_ana::getB0(PHCompositeNode* topNode)
 {
+  cout <<"getB0 " << endl;
 
 }
 
