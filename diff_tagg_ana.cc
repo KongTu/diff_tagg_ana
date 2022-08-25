@@ -46,6 +46,8 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 
   event_itt = 0;
 
+  g4hitntuple = new TNtuple("hitntup", "G4Hits", "x0:y0:z0:x1:y1:z1:edep");
+
   m_eventtree = new TTree("eventtree", "A tree with event level quantity");
   m_eventtree->Branch("m_Q2_truth", &m_Q2_truth, "m_Q2_truth/F");
   m_eventtree->Branch("m_x_truth", &m_x_truth, "m_x_truth/F");
