@@ -123,33 +123,33 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 //____________________________________________________________________________..
 int diff_tagg_ana::InitRun(PHCompositeNode *topNode)
 {
-  //enclosure
-  encloseure_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_hFarFwdBeamLineEnclosure_0");
-  encloseure_nodeparams->Print();
-  if (encloseure_nodeparams){
-    Enclosure_params.FillFrom(encloseure_nodeparams, 0);
-  } else {
-     cerr << "There is a issue finding the detector paramter node!" << endl;
-  }
-  //beamlinemagnet
-  beamlinemagnet_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_BEAMLINEMAGNET");
-  beamlinemagnet_nodeparams->print();
-  if (encloseure_nodeparams){
-     BeamLineMagnet_params.FillFrom(beamlinemagnet_nodeparams, 0);
-  } else {
-     cerr << "There is a issue finding the detector paramter node!" << endl;
-  }
+  // //enclosure
+  // encloseure_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_hFarFwdBeamLineEnclosure_0");
+  // encloseure_nodeparams->Print();
+  // if (encloseure_nodeparams){
+  //   Enclosure_params.FillFrom(encloseure_nodeparams, 0);
+  // } else {
+  //    cerr << "There is a issue finding the detector paramter node!" << endl;
+  // }
+  // //beamlinemagnet
+  // beamlinemagnet_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_BEAMLINEMAGNET");
+  // beamlinemagnet_nodeparams->print();
+  // if (encloseure_nodeparams){
+  //    BeamLineMagnet_params.FillFrom(beamlinemagnet_nodeparams, 0);
+  // } else {
+  //    cerr << "There is a issue finding the detector paramter node!" << endl;
+  // }
 
-  //rp 1
-  rp_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth");
-  rp_nodeparams->print();
-  //rp 2
-  rp2_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth2");
-  rp2_nodeparams->print();
-  //b0
-  // b0_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_b0Truth_0");
-  // //zdc
-  // zdc_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_ZDCsurrogate");
+  // //rp 1
+  // rp_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth");
+  // rp_nodeparams->print();
+  // //rp 2
+  // rp2_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth2");
+  // rp2_nodeparams->print();
+  // //b0
+  // // b0_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_b0Truth_0");
+  // // //zdc
+  // // zdc_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_ZDCsurrogate");
 
   cout << " END initialization" << endl;
   return Fun4AllReturnCodes::EVENT_OK;
