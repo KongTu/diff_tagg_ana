@@ -139,6 +139,18 @@ class diff_tagg_ana : public SubsysReco
   /// REC tree
   void getTracks(PHCompositeNode *topNode);
 
+  /// ZDC tree
+  void getZDC(PHCompositeNode *topNode);
+
+  /// RP tree
+  void getRP(PHCompositeNode *topNode);
+
+  /// OMD tree
+  void getOMD(PHCompositeNode *topNode);
+
+  /// B0 tree
+  void getB0(PHCompositeNode *topNode);
+  
 // private:
  protected:
 

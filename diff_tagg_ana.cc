@@ -167,6 +167,14 @@ int diff_tagg_ana::process_event(PHCompositeNode *topNode)
   getPHG4Truth(topNode);
   // Getting the RECO information
   getTracks(topNode);
+  //ZDC
+  getZDC(topNode);
+  //RP
+  getRP(topNode);
+  //OMD
+  getOMD(topNode);
+  //B0
+  getB0(topNode);
 
   event_itt++; 
  
@@ -451,4 +459,50 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
 
   m_tracktree->Fill();
 }
+
+void diff_tagg_ana::getZDC(PHCompositeNode* topNode)
+{
+  ostringstream nodename;
+  nodename.str("");
+  nodename << "G4HIT_" << "ZDCsurrogate";
+  PHG4HitContainer* hits = findNode::getClass<PHG4HitContainer>(topNode, nodename.str().c_str());
+  
+  if (hits) {
+   // this returns an iterator to the beginning and the end of our G4Hits
+    PHG4HitContainer::ConstRange hit_range = hits->getHits();
+    for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++) {
+      ZDC_hit++;
+      // the pointer to the G4Hit is hit_iter->second
+      g4hitntuple->Fill(hit_iter->second->get_x(0),
+                        hit_iter->second->get_y(0),
+                        hit_iter->second->get_z(0),
+                        hit_iter->second->get_x(1),
+                        hit_iter->second->get_y(1),
+                        hit_iter->second->get_z(1),
+                        hit_iter->second->get_edep());
+
+    }
+  }
+
+}
+
+void diff_tagg_ana::getRP(PHCompositeNode* topNode)
+{
+
+}
+
+void diff_tagg_ana::getOMD(PHCompositeNode* topNode)
+{
+
+}
+
+void diff_tagg_ana::getB0(PHCompositeNode* topNode)
+{
+
+}
+
+
+
+
+
 
