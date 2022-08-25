@@ -208,6 +208,7 @@ int diff_tagg_ana::End(PHCompositeNode *topNode)
   m_eventtree->Write();
   m_truthtree->Write();
   m_tracktree->Write();
+  g4hitntuple->Write();
   outfile->Write();
   outfile->Close();
   delete outfile;
@@ -471,7 +472,6 @@ void diff_tagg_ana::getZDC(PHCompositeNode* topNode)
    // this returns an iterator to the beginning and the end of our G4Hits
     PHG4HitContainer::ConstRange hit_range = hits->getHits();
     for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++) {
-      ZDC_hit++;
       // the pointer to the G4Hit is hit_iter->second
       g4hitntuple->Fill(hit_iter->second->get_x(0),
                         hit_iter->second->get_y(0),
