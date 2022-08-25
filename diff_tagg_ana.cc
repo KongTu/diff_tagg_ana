@@ -147,9 +147,9 @@ int diff_tagg_ana::InitRun(PHCompositeNode *topNode)
   rp2_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth2");
   rp2_nodeparams->print();
   //b0
-  b0_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_b0Truth_0");
-  //zdc
-  zdc_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_ZDCsurrogate");
+  // b0_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_b0Truth_0");
+  // //zdc
+  // zdc_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_ZDCsurrogate");
 
   cout << " END initialization" << endl;
   return Fun4AllReturnCodes::EVENT_OK;
