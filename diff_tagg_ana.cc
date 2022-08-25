@@ -16,69 +16,6 @@ Descriptions:
 */
 #include "diff_tagg_ana.h"
 
-#include <fun4all/Fun4AllReturnCodes.h>
-
-#include <phool/PHCompositeNode.h>
-
-#include <stdio.h>
-
-#include <fun4all/Fun4AllHistoManager.h>
-
-#include <phool/PHCompositeNode.h>
-#include <phool/PHIODataNode.h>
-#include <phool/PHNode.h>  // for PHNode
-#include <phool/PHNodeIterator.h>
-#include <phool/PHObject.h>  // for PHObject
-#include <phool/PHRandomSeed.h>
-#include <phool/getClass.h>
-#include <phool/phool.h>
-
-// G4Hits includes
-#include <g4main/PHG4Hit.h>
-#include <g4main/PHG4HitContainer.h>
-
-// Cluster includes
-#include <calobase/RawCluster.h>
-#include <calobase/RawClusterContainer.h>
-
-#include <TFile.h>
-#include <TNtuple.h>
-
-#include <cassert>
-#include <sstream>
-#include <string>
-#include <iostream>
-
-#include <gsl/gsl_randist.h>
-
-#include <gsl/gsl_rng.h>
-
-/// HEPMC truth includes
-#include <HepMC/GenEvent.h>
-#include <HepMC/GenVertex.h>
-#include <phhepmc/PHHepMCGenEvent.h>
-#include <phhepmc/PHHepMCGenEventMap.h>
-
-/// Fun4All includes
-#include <g4main/PHG4Particle.h>
-#include <g4main/PHG4TruthInfoContainer.h>
-
-//PID includes
-#include <eicpidbase/EICPIDParticle.h>
-#include <eicpidbase/EICPIDParticleContainer.h>
-
-#include <g4main/PHG4Reco.h>
-
-#include <fun4all/Fun4AllServer.h>
-#include <fun4all/Fun4AllDstInputManager.h>
-
-#include <pdbcalbase/PdbParameterMap.h>
-#include <phparameter/PHParameters.h>
-
-#include <pdbcalbase/PdbParameterMapContainer.h>
-
-using namespace std;
-
 diff_tagg_ana::diff_tagg_ana(const std::string &name, const std::string& filename):
  SubsysReco(name)
  , outfilename(filename)
@@ -104,7 +41,6 @@ diff_tagg_ana::~diff_tagg_ana()
 int diff_tagg_ana::Init(PHCompositeNode *topNode)
 {
 
-  static_event_counter = 0;
   outfile = new TFile(outfilename.c_str(), "RECREATE");
   std::cout << "diff_tagg_ana::Init(PHCompositeNode *topNode) Initializing" << std::endl;
 
@@ -187,6 +123,33 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 //____________________________________________________________________________..
 int diff_tagg_ana::InitRun(PHCompositeNode *topNode)
 {
+  //enclosure
+  encloseure_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_hFarFwdBeamLineEnclosure_0");
+  encloseure_nodeparams->Print();
+  if (encloseure_nodeparams){
+    Enclosure_params.FillFrom(encloseure_nodeparams, 0);
+  } else {
+     cerr << "There is a issue finding the detector paramter node!" << endl;
+  }
+  //beamlinemagnet
+  beamlinemagnet_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_BEAMLINEMAGNET");
+  beamlinemagnet_nodeparams->print();
+  if (encloseure_nodeparams){
+     BeamLineMagnet_params.FillFrom(beamlinemagnet_nodeparams, 0);
+  } else {
+     cerr << "There is a issue finding the detector paramter node!" << endl;
+  }
+
+  //rp 1
+  rp_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth");
+  rp_nodeparams->print();
+  //rp 2
+  rp2_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_rpTruth2");
+  rp2_nodeparams->print();
+  //b0
+  b0_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_b0Truth_0");
+  //zdc
+  zdc_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_ZDCsurrogate");
 
   cout << " END initialization" << endl;
   return Fun4AllReturnCodes::EVENT_OK;

@@ -175,7 +175,6 @@ class diff_tagg_ana : public SubsysReco
   TLorentzVector virtphoton4VectTruth;
   TLorentzVector e4VectTruth;
 
-
   //event level
   Float_t m_Q2_truth;
   Float_t m_x_truth;
@@ -234,6 +233,21 @@ class diff_tagg_ana : public SubsysReco
   double m_truthtrackphi[200];
   double m_truthtracketa[200];
   int m_truthtrackpid[200];
+
+  //FF detectors
+  PHParameters Enclosure_params{"PHGEnclosure"};
+  PHParameters ZDC_params{"PHG4RP"};
+  PHParameters RP_1_params{"PHG4RP"};
+  PHParameters RP2_params{"PHG4RP2"};
+  PHParameters B0_params{"PHG4B0"};
+  PHParameters BeamLineMagnet_params{"PHG4BeamLinMagnet"};
+
+  PdbParameterMapContainer *encloseure_nodeparams; 
+  PdbParameterMapContainer *zdc_nodeparams; 
+  PdbParameterMapContainer *rp_nodeparams;
+  PdbParameterMapContainer *rp2_nodeparams;
+  PdbParameterMapContainer *b0_nodeparams;
+  PdbParameterMapContainer *beamlinemagnet_nodeparams; 
 
 };
 
