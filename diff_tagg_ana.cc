@@ -126,11 +126,11 @@ int diff_tagg_ana::InitRun(PHCompositeNode *topNode)
   // //enclosure
   encloseure_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_hFarFwdBeamLineEnclosure_0");
   encloseure_nodeparams->Print();
-  // if (encloseure_nodeparams){
-  //   Enclosure_params.FillFrom(encloseure_nodeparams, 0);
-  // } else {
-  //    cerr << "There is a issue finding the detector paramter node!" << endl;
-  // }
+  if (encloseure_nodeparams){
+    Enclosure_params.FillFrom(encloseure_nodeparams, 0);
+  } else {
+     cerr << "There is a issue finding the detector paramter node!" << endl;
+  }
   // //beamlinemagnet
   // beamlinemagnet_nodeparams = findNode::getClass<PdbParameterMapContainer>(topNode, "G4GEOPARAM_BEAMLINEMAGNET");
   // beamlinemagnet_nodeparams->print();
