@@ -46,10 +46,10 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
 
   event_itt = 0;
 
-  g4hitntuple = new TNtuple("hitntup", "G4Hits", "x0:y0:z0:x1:y1:z1:edep");
-  g4rphitntuple = new TNtuple("rphit", "RP Hits", "layer:type:x0:y0:z0:x1:y1:z1:t0:t1:edep");
-  g4omdhitntuple = new TNtuple("omdhit", "OMD Hits", "layer:type:x0:y0:z0:x1:y1:z1:t0:t1:edep");
-  g4b0hitntuple = new TNtuple("b0hit", "B0 Hits", "layer:type:x0:y0:z0:x1:y1:z1:t0:t1:edep");
+  g4hitntuple = new TNtuple("hitntup", "G4Hits", "evt:x0:y0:z0:x1:y1:z1:edep");
+  g4rphitntuple = new TNtuple("rphit", "RP Hits", "evt:layer:type:x0:y0:z0:x1:y1:z1:t0:t1:edep");
+  g4omdhitntuple = new TNtuple("omdhit", "OMD Hits", "evt:layer:type:x0:y0:z0:x1:y1:z1:t0:t1:edep");
+  g4b0hitntuple = new TNtuple("b0hit", "B0 Hits", "evt:layer:type:x0:y0:z0:x1:y1:z1:t0:t1:edep");
 
   m_eventtree = new TTree("eventtree", "A tree with event level quantity");
   m_eventtree->Branch("m_Q2_truth", &m_Q2_truth, "m_Q2_truth/F");
@@ -209,13 +209,6 @@ int diff_tagg_ana::End(PHCompositeNode *topNode)
 {
   std::cout << "diff_tagg_ana::End(PHCompositeNode *topNode) This is the End..." << std::endl;
 
-  outfile->cd();
-  // m_eventtree->Write();
-  // m_truthtree->Write();
-  // m_tracktree->Write();
-  // g4hitntuple->Write();
-  // g4rphitntuple->Write();
-  // g4b0hitntuple->Write();
   outfile->Write();
   outfile->Close();
   delete outfile;
@@ -480,7 +473,7 @@ void diff_tagg_ana::getZDC(PHCompositeNode* topNode)
     PHG4HitContainer::ConstRange hit_range = hits->getHits();
     for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++) {
       // the pointer to the G4Hit is hit_iter->second
-      g4hitntuple->Fill(hit_iter->second->get_x(0),
+      g4hitntuple->Fill(event_itt,hit_iter->second->get_x(0),
                         hit_iter->second->get_y(0),
                         hit_iter->second->get_z(0),
                         hit_iter->second->get_x(1),
@@ -502,7 +495,7 @@ void diff_tagg_ana::getRP(PHCompositeNode* topNode)
     PHG4HitContainer::ConstRange hit_range = hits->getHits();
     for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++)
     {
-      g4rphitntuple->Fill(hit_iter->second->get_layer(),
+      g4rphitntuple->Fill(event_itt,hit_iter->second->get_layer(),
                           hit_iter->second->get_hit_type(),
                           hit_iter->second->get_x(0),
                           hit_iter->second->get_y(0),
@@ -542,7 +535,7 @@ void diff_tagg_ana::getOMD(PHCompositeNode* topNode)
     PHG4HitContainer::ConstRange hit_range = hits->getHits();
     for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++)
     {
-      g4omdhitntuple->Fill(hit_iter->second->get_layer(),
+      g4omdhitntuple->Fill(event_itt,hit_iter->second->get_layer(),
                           hit_iter->second->get_hit_type(),
                           hit_iter->second->get_x(0),
                           hit_iter->second->get_y(0),
@@ -572,7 +565,7 @@ void diff_tagg_ana::getB0(PHCompositeNode* topNode)
     PHG4HitContainer::ConstRange hit_range = hits->getHits();
     for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++)
     {
-      g4b0hitntuple->Fill(hit_iter->second->get_layer(),
+      g4b0hitntuple->Fill(event_itt,hit_iter->second->get_layer(),
                           hit_iter->second->get_hit_type(),
                           hit_iter->second->get_x(0),
                           hit_iter->second->get_y(0),
