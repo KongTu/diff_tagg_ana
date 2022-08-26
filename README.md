@@ -2,7 +2,9 @@
 
 ## Instructions to get started
 
-Contact: Kong Tu (BNL) and Bill Li (SBU)
+Contact: 
+- Kong Tu, kongtu@bnl.gov (BNL) 
+- Bill Li,wenliang.billlee@googlemail.com (SBU) 
 
 Disclaimer: this only applies at BNL RCF. If one wants to try virtualbox, please go to this link,https://github.com/ECCE-EIC/Singularity/blob/master/VirtualBox.md.
 
