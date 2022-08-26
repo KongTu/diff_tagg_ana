@@ -163,9 +163,9 @@ class diff_tagg_ana : public SubsysReco
   TTree *m_truthtree;
   TTree *m_tracktree;
   TNtuple *g4hitntuple;
-  TNtuple *g4b0hitntuple;
   TNtuple *g4rphitntuple;
-  
+  TNtuple *g4omdhitntuple;
+  TNtuple *g4b0hitntuple;
 
   SvtxEvalStack *m_svtxEvalStack = nullptr;
 
