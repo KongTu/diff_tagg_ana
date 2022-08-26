@@ -3,15 +3,15 @@
 Original Author: Bill Li (SBU)
 Modification by: Kong Tu (BNL)
 Purpose        : Look at diffractive physics
-Date.          : Aug 18 2022
+Date.          : Aug 26 2022
 
 Descriptions:
 
 * Run on DST trees;
 * Save a few important flat trees for analysis.
-
-
-
+* This mostly is based on diffractive VM analysis. 
+* So far, the calorimeter info are not written yet.
+* When added, this will be updated.
 **************************************************
 */
 #include "diff_tagg_ana.h"
@@ -230,6 +230,12 @@ void diff_tagg_ana::Print(const std::string &what) const
   std::cout << "diff_tagg_ana::Print(const std::string &what) const Printing info for " << what << std::endl;
 }
 
+/*
+This uses the truth particle to find the scattered electron
+and calculate kinematics based on the electron method.
+Very simple. Just an example.
+Reconstructed level is not written yet.
+*/
 void diff_tagg_ana::getEvent(PHCompositeNode *topNode)
 {
   /// G4 truth particle node
@@ -461,6 +467,10 @@ void diff_tagg_ana::getTracks(PHCompositeNode *topNode)
   m_tracktree->Fill();
 }
 
+/*
+[Consult experts on FFs about how to use them. (because I don't)]
+The name says it all. ZDC info.
+*/
 void diff_tagg_ana::getZDC(PHCompositeNode* topNode)
 {
   ostringstream nodename;
@@ -485,6 +495,10 @@ void diff_tagg_ana::getZDC(PHCompositeNode* topNode)
 
 }
 
+/*
+[Consult experts on FFs about how to use them. (because I don't)]
+The name says it all. RomanPot info.
+*/
 void diff_tagg_ana::getRP(PHCompositeNode* topNode)
 {
   std::string nodename = "G4HIT_rpTruth";
@@ -521,6 +535,10 @@ void diff_tagg_ana::getRP(PHCompositeNode* topNode)
 
 }
 
+/*
+[Consult experts on FFs about how to use them. (because I don't)]
+The name says it all. Off Momentum Detector info.
+*/
 void diff_tagg_ana::getOMD(PHCompositeNode* topNode)
 {
   std::ostringstream nodename;
@@ -550,13 +568,17 @@ void diff_tagg_ana::getOMD(PHCompositeNode* topNode)
   }
 }
 
+/*
+[Consult experts on FFs about how to use them. (because I don't)]
+The name says it all. B0 Detector info.
+*/
 void diff_tagg_ana::getB0(PHCompositeNode* topNode)
 {
 
   std::ostringstream nodename;
   nodename.str("");
   nodename << "G4HIT_"
-           << "b0Truth_0";
+           << "b0Truth_0";//there are b0Truth_0,1,2,3 
   PHG4HitContainer* hits = findNode::getClass<PHG4HitContainer>(topNode, nodename.str().c_str());
 
   if (hits)
@@ -580,9 +602,4 @@ void diff_tagg_ana::getB0(PHCompositeNode* topNode)
   }
 
 }
-
-
-
-
-
 

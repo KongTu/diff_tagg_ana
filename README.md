@@ -1,9 +1,5 @@
 # diff_tagg_ana 
 
-Instructions to get started:
+## Instructions to get started:
+This only applies at BNL RCF.
 
-build.
-
--1. go to macros
--2. try copy.sh to copy a test.root file
--3. 
