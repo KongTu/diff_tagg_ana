@@ -15,6 +15,7 @@ Disclaimer: this only applies at BNL RCF. If one wants to try virtualbox, please
 
 - source both by, 
   - ``source singularity_shell.sh``
+  - Note if you are in the home directory, after getting into the container, you need to go back to where you were.
   - ``source setup.sh``
 
 - Create a directory for this work, I called it "ECCE"
