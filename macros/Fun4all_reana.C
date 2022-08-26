@@ -44,7 +44,7 @@ int Fun4all_reana(){
 
   if (Enable::USER) UserAnalysisInit();
 
-    Int_t nEvents=-1;
+    Int_t nEvents=100;
 
 //    Int_t nEvents=1;
 

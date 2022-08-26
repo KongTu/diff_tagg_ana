@@ -55,7 +55,7 @@ void UserDetector(PHG4Reco *g4Reco)
 void UserAnalysisInit()
 {
   Fun4AllServer* se = Fun4AllServer::instance();
-  diff_tagg_ana *myAnalysisModule = new diff_tagg_ana("diff_tagg_ana","out.root");
+  diff_tagg_ana *myAnalysisModule = new diff_tagg_ana("diff_tagg_ana","../flatTree/phi.root");
   se->registerSubsystem(myAnalysisModule);
   
   // AnalysisModule *myAnalysisModule = new AnalysisModule();

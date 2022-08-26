@@ -196,7 +196,7 @@ void readFlatTree(TString vm_name="jpsi"){
 
 	}//event loop
 	
-	TFile* output = new TFile("output_"+vm_name+".root","RECREATE");
+	TFile* output = new TFile("results/output_"+vm_name+".root","RECREATE");
 	//
 	gDirectory->mkdir("Physics");
 	gDirectory->cd("Physics");
