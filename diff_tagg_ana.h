@@ -158,7 +158,7 @@ class diff_tagg_ana : public SubsysReco
   std::string outfilename;
   Fun4AllHistoManager *hm;
 
-  TFile *outfile;mv 
+  TFile *outfile;
   TTree* m_eventtree;
   TTree *m_truthtree;
   TTree *m_tracktree;
