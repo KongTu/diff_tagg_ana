@@ -489,6 +489,11 @@ void diff_tagg_ana::getZDC(PHCompositeNode* topNode)
 
 void diff_tagg_ana::getRP(PHCompositeNode* topNode)
 {
+  ostringstream nodename;
+  nodename.str("");
+  nodename << "G4HIT_" << "rpTruth_VirtSheet";
+  PHG4HitContainer* hits = findNode::getClass<PHG4HitContainer>(topNode, nodename.str().c_str());
+
 }
 
 void diff_tagg_ana::getOMD(PHCompositeNode* topNode)
