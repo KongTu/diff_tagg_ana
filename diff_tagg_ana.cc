@@ -537,7 +537,7 @@ void diff_tagg_ana::getB0(PHCompositeNode* topNode)
   std::ostringstream nodename;
   nodename.str("");
   nodename << "G4HIT_"
-           << "b0Truth";
+           << "b0Truth_0";
   PHG4HitContainer* hits = findNode::getClass<PHG4HitContainer>(topNode, nodename.str().c_str());
 
   if (hits)
