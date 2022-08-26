@@ -493,6 +493,12 @@ void diff_tagg_ana::getRP(PHCompositeNode* topNode)
   nodename.str("");
   nodename << "G4HIT_" << "rpTruth_VirtSheet";
   PHG4HitContainer* hits = findNode::getClass<PHG4HitContainer>(topNode, nodename.str().c_str());
+  if(hits){
+    PHG4HitContainer::ConstRange hit_range = hits->getHits();
+    for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++) {
+      //loop over hits?
+    }
+  }
 
 }
 
