@@ -8,7 +8,7 @@ Date.          : Aug 18 2022
 Descriptions:
 
 * Run on DST trees;
-* Save a few important trees for analysis.
+* Save a few important flat trees for analysis.
 
 
 
@@ -47,6 +47,8 @@ int diff_tagg_ana::Init(PHCompositeNode *topNode)
   event_itt = 0;
 
   g4hitntuple = new TNtuple("hitntup", "G4Hits", "x0:y0:z0:x1:y1:z1:edep");
+  g4b0hitntuple = new TNtuple("b0hit", "B0 Hits", "layer:type:x0:y0:z0:x1:y1:z1:t0:t1:edep");
+  g4rphitntuple = new TNtuple("rphit", "RP Hits", "layer:type:x0:y0:z0:x1:y1:z1:t0:t1:edep");
 
   m_eventtree = new TTree("eventtree", "A tree with event level quantity");
   m_eventtree->Branch("m_Q2_truth", &m_Q2_truth, "m_Q2_truth/F");
@@ -489,14 +491,31 @@ void diff_tagg_ana::getZDC(PHCompositeNode* topNode)
 
 void diff_tagg_ana::getRP(PHCompositeNode* topNode)
 {
-  ostringstream nodename;
-  nodename.str("");
-  nodename << "G4HIT_" << "rpTruth_VirtSheet";
-  PHG4HitContainer* hits = findNode::getClass<PHG4HitContainer>(topNode, nodename.str().c_str());
-  if(hits){
+  std::string nodename = "G4HIT_rpTruth";
+  PHG4HitContainer* hits = findNode::getClass<PHG4HitContainer>(topNode, nodename);
+  if (hits)
+  {
+    // this returns an iterator to the beginning and the end of our G4Hits
     PHG4HitContainer::ConstRange hit_range = hits->getHits();
-    for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++) {
-      //loop over hits?
+    for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++)
+    {
+      h2_RP_XY->Fill(hit_iter->second->get_x(0), hit_iter->second->get_y(0));
+      
+      if( h2_RP_layers_XY[ hit_iter->second->get_layer() ] ) {
+        h2_RP_layers_XY[ hit_iter->second->get_layer() ]->Fill(hit_iter->second->get_x(0), hit_iter->second->get_y(0));
+      }
+
+      g4rphitntuple->Fill(hit_iter->second->get_layer(),
+                          hit_iter->second->get_hit_type(),
+                          hit_iter->second->get_x(0),
+                          hit_iter->second->get_y(0),
+                          hit_iter->second->get_z(0),
+                          hit_iter->second->get_x(1),
+                          hit_iter->second->get_y(1),
+                          hit_iter->second->get_z(1),
+                          hit_iter->second->get_t(0),
+                          hit_iter->second->get_t(1),
+                          hit_iter->second->get_edep());
     }
   }
 
