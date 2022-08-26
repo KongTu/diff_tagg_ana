@@ -150,7 +150,7 @@ class diff_tagg_ana : public SubsysReco
 
   /// B0 tree
   void getB0(PHCompositeNode *topNode);
-  
+
 // private:
  protected:
 
@@ -158,7 +158,7 @@ class diff_tagg_ana : public SubsysReco
   std::string outfilename;
   Fun4AllHistoManager *hm;
 
-  TFile *outfile;
+  TFile *outfile;mv 
   TTree* m_eventtree;
   TTree *m_truthtree;
   TTree *m_tracktree;
