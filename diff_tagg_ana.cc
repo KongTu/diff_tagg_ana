@@ -213,6 +213,7 @@ int diff_tagg_ana::End(PHCompositeNode *topNode)
   m_truthtree->Write();
   m_tracktree->Write();
   g4hitntuple->Write();
+  g4rphitntuple->Write();
   outfile->Write();
   outfile->Close();
   delete outfile;
