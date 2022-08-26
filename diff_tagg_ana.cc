@@ -214,6 +214,7 @@ int diff_tagg_ana::End(PHCompositeNode *topNode)
   m_tracktree->Write();
   g4hitntuple->Write();
   g4rphitntuple->Write();
+  g4b0hitntuple->Write();
   outfile->Write();
   outfile->Close();
   delete outfile;
@@ -513,6 +514,16 @@ void diff_tagg_ana::getRP(PHCompositeNode* topNode)
                           hit_iter->second->get_edep());
     }
   }
+  std::string nodenameVirt = nodename + "_VirtSheet";
+  PHG4HitContainer* hits_virt = findNode::getClass<PHG4HitContainer>(topNode, nodenameVirt);
+   // hits on virtual layer without beam hole
+  if( hits_virt ) {
+    PHG4HitContainer::ConstRange hit_range = hits_virt->getHits();
+    for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++)
+    {
+      //loop over virtual hits?
+    }
+  }
 
 }
 
@@ -522,6 +533,33 @@ void diff_tagg_ana::getOMD(PHCompositeNode* topNode)
 
 void diff_tagg_ana::getB0(PHCompositeNode* topNode)
 {
+
+  std::ostringstream nodename;
+  nodename.str("");
+  nodename << "G4HIT_"
+           << "b0Truth";
+  PHG4HitContainer* hits = findNode::getClass<PHG4HitContainer>(topNode, nodename.str().c_str());
+
+  if (hits)
+  {
+    //    // this returns an iterator to the beginning and the end of our G4Hits
+    PHG4HitContainer::ConstRange hit_range = hits->getHits();
+    for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++)
+    {
+      g4b0hitntuple->Fill(hit_iter->second->get_layer(),
+                          hit_iter->second->get_hit_type(),
+                          hit_iter->second->get_x(0),
+                          hit_iter->second->get_y(0),
+                          hit_iter->second->get_z(0),
+                          hit_iter->second->get_x(1),
+                          hit_iter->second->get_y(1),
+                          hit_iter->second->get_z(1),
+                          hit_iter->second->get_t(0),
+                          hit_iter->second->get_t(1),
+                          hit_iter->second->get_edep());
+    }
+  }
+
 }
 
 
