@@ -1,5 +1,5 @@
 #include "pleaseIncludeMe.h"
-void readFlatTree(TString vm_name="jpsi"){
+void readFlatTree(TString vm_name="phi"){
 
 	TChain* eventtree = new TChain("eventtree");
 	TChain* truthtree = new TChain("truthg4tree");
