@@ -499,12 +499,6 @@ void diff_tagg_ana::getRP(PHCompositeNode* topNode)
     PHG4HitContainer::ConstRange hit_range = hits->getHits();
     for (PHG4HitContainer::ConstIterator hit_iter = hit_range.first; hit_iter != hit_range.second; hit_iter++)
     {
-      h2_RP_XY->Fill(hit_iter->second->get_x(0), hit_iter->second->get_y(0));
-      
-      if( h2_RP_layers_XY[ hit_iter->second->get_layer() ] ) {
-        h2_RP_layers_XY[ hit_iter->second->get_layer() ]->Fill(hit_iter->second->get_x(0), hit_iter->second->get_y(0));
-      }
-
       g4rphitntuple->Fill(hit_iter->second->get_layer(),
                           hit_iter->second->get_hit_type(),
                           hit_iter->second->get_x(0),
